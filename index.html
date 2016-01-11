@@ -1,5 +1,10 @@
-<canvas id="ctx" width="800" height="600" style="border:1px solid #000000; background-color:brown;"></canvas>
- 
-<script>
-
-</script>
+<!doctype html> <html> <head> <meta charset=utf-8> <meta name=description> <meta name=viewport content="width=device-width, initial-scale=1"> <title>Who Want to enter Dutch!</title> <link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css> <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Lobster"> <link rel=apple-touch-icon href=apple-touch-icon.png>   <link href=https://api.tiles.mapbox.com/mapbox-gl-js/v0.12.2/mapbox-gl.css rel=stylesheet> <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,700" rel=stylesheet type=text/css> <link rel=stylesheet href=styles/main.css>  </head> <body> <!--[if lt IE 10]>
+ <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+ <![endif]-->   <div id=map-container> <div id=map></div> </div> <div id=left-box> <h1>Let's go to the Netherlands!</h1> <span> Number of asylum request to the Netherlands between 2007 - 2015 </span> </div> <div id=right-box> <span class=input-wrapper> <input type=text placeholder="Search by country or continent"> </span> Gender : <input type=checkbox> Male <input type=checkbox> Female </div> <div id=show-graph>Show Graph</div> <div id=bottom-box> <div class=content> <div id=country-graph> Line graph <span id=close-button>[x]</span> </div> <div id=year-panel> 2007 - 2008 - 2009 </div> </div> </div>  <script>
+      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='https://www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+      ga('create','UA-XXXXX-X');ga('send','pageview');
+    </script> <script src=scripts/vendor.js></script> <script src=https://api.tiles.mapbox.com/mapbox-gl-js/v0.12.2/mapbox-gl.js></script> <script src=//d3js.org/d3.v3.min.js charset=utf-8></script> <script src=scripts/main.js></script> </body> </html> 

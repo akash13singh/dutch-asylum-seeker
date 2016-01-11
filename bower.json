@@ -1,7 +1,0 @@
-{
-  "name": "geometric-game",
-  "private": true,
-  "dependencies": {
-    "arc.js": "~0.1.0"
-  }
-}
