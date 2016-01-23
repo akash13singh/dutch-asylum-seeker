@@ -83,8 +83,11 @@ function createGraph( data ) {
     .attr("r", 8 )
     .on("click", function(d,i){
         var xPos = x(d.year);
+        var yPos = y(d.close);
         currentYearLine.attr("x1", xPos )
-            .attr("x2", xPos );
+            .attr("x2", xPos )
+            .attr("y1", yPos );
+
 
         d3.select(chartID)
             .selectAll(".year-bullet")
@@ -127,11 +130,14 @@ function createGraph( data ) {
         .style("opacity", 0 )
 
     var currentX = x(FOCUS_YEAR);
+    var currentValue = _.find( data, function(d){
+            return d.year == FOCUS_YEAR
+        });
     var currentYearLine = svg.append("line")
         .attr("class", "focus-line current" )
         .attr("x1", currentX )
         .attr("x2", currentX )
-        .attr("y1", 0)
+        .attr("y1", y(currentValue.close) )
         .attr("y2", height + X_AXIS_PADDING/4 )
 
 
