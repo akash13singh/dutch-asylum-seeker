@@ -34,13 +34,22 @@ function TimelineGraph( id, options ){
     var width    = boxWidth - margin.left - margin.right;
     var height   = 200 - margin.top - margin.bottom + X_AXIS_PADDING;
 
-    this.height  = height;
+    this.height = height;
+    this.width  = width;
 
     this.xScale = d3.scale.linear()
         .domain(YEAR_RANGE)
         .range([0, width]);
 
     var xScale = this.xScale;
+
+    this.element
+        .select("select")
+        .on("change", function(){
+            var i = parseInt(self.element.select("select").node().value);
+            self.graphs[i].element.attr("opacity", 1 );
+            self.graphs[(i+1)%2].element.attr("opacity", 0 );
+        });
 
 
     var xAxis = d3.svg.axis()
@@ -94,7 +103,6 @@ function TimelineGraph( id, options ){
         .attr("r", 8 )
         .on("click", function(d,i){
             var xPos = xScale(d);
-            // var yPos = self.highestValueForYear(d);
             currentYearLine.attr("x1", xPos )
                 .attr("x2", xPos )
                 .attr("y1", 0 );
@@ -134,9 +142,13 @@ function TimelineGraph( id, options ){
         return _.max( data, function() { return d.number } );
     }
 
-    this.graphs = _.map( ['absolute-chart'], function(id){
-        return new LineGraph( self, id );
+    var valuesKey = [ 'number', 'relative' ];
+    this.graphs = _.map( ['absolute-chart', 'relative-chart'], function(id, i){
+        var l = new LineGraph( self, id, valuesKey[i] );
+        return l;
     });
+
+    this.graphs[1].element.attr("opacity", 0 );
 
 }
 
@@ -147,6 +159,15 @@ TimelineGraph.prototype.addData = function(data){
         console.log("country in the list already");
         return;
     }
+
+    _.each( data, function(d,i) {
+        if( i == 0 ) {
+            d.relative = 0;
+        } else {
+            var prev = data[i-1];
+            d.relative = ( d.number - prev.number ) / prev.number ;
+        }
+    })
 
     /* Legend */
     var element = this.element;
@@ -161,10 +182,8 @@ TimelineGraph.prototype.addData = function(data){
 
     legend.select("span.close")
         .on("click",function(){
-            console.log(index);
             self.removeData(country);
             legend.remove();
-            console.log('xxx');
         })
 
     legend.select("span")
@@ -191,40 +210,61 @@ TimelineGraph.prototype.render = function(){
     });
 }
 
-function LineGraph( parent, id ){
+function LineGraph( parent, id, valueKey ){
     this.parent = parent;
     this.element = parent.svg.append("g").attr("id", id );
 
     var yScale = d3.scale.linear()
         .range([ parent.height, 0]);
 
+    this.valueKey = valueKey;
+
 }
 
 LineGraph.prototype.render = function( datasets ) {
     this.element.selectAll("*").remove();
 
-    var tip    = this.parent.tip;
-    var xScale = this.parent.xScale;
-    var yScale = d3.scale.linear()
-        .range([ this.parent.height, 0]);
-    var focusLine= this.parent.focusLine;
+    var tip       = this.parent.tip;
+    var xScale    = this.parent.xScale;
+    var yScale    = d3.scale.linear().range([ this.parent.height, 0]);
+    var focusLine = this.parent.focusLine;
+    var valueKey  = this.valueKey;
 
     var flattenedDataset = _.flatten(datasets);
-    var highestValue = _.maxBy( flattenedDataset, 'number' );
-    console.log(highestValue);
+    var highestValue = _.maxBy( flattenedDataset, valueKey );
 
-    yScale.domain([0, highestValue.number ]);
+    if( !highestValue ) {
+        return;
+    }
 
+    var yDomain = [0,highestValue[valueKey]];
+    if( valueKey == "relative" ){
+        var lowestValue = _.minBy( flattenedDataset, valueKey );
+        var candidates = _.map( [ highestValue[valueKey], lowestValue[valueKey] ],
+            function(d){
+                return Math.abs(d)
+            });
+
+        var max = _.max(candidates);
+        yDomain = [ -max, max ];
+    }
+
+    yScale.domain( yDomain );
+
+    var format = d3.format('.2s');
+    if( valueKey == "relative" ){
+        format = d3.format("1.1f");
+    }
     var yAxis = d3.svg.axis()
         .scale(yScale)
         .ticks(5)
-        .tickFormat( d3.format('.2s') )
+        .tickFormat(format)
         .orient("left");
 
     var line = d3.svg.line()
         .x(function(d) { return xScale(d.year); })
         .y(function(d) {
-            return yScale(d.number); }
+            return yScale(d[valueKey]); }
         );
 
     this.element.append("g")
@@ -246,6 +286,16 @@ LineGraph.prototype.render = function( datasets ) {
         })
         .attr("d", line);
 
+    if( valueKey == "relative" ){
+        this.element.append("line")
+            .attr("x1", 0 )
+            .attr("x2", this.parent.width )
+            .attr("y1", yScale(0) )
+            .attr("y2", yScale(0) )
+            .attr("stroke", "black" )
+            .attr("opacity", 0.2 );
+    }
+
     this.element.append("g")
         .attr("class", "line-point")
         .selectAll('circle')
@@ -255,7 +305,7 @@ LineGraph.prototype.render = function( datasets ) {
         .attr("cx", function(d) {
             return xScale(d.year);
         })
-        .attr("cy", function(d, i) { return yScale(d.number) })
+        .attr("cy", function(d, i) { return yScale(d[valueKey]) })
         .attr("r", 5 )
         .style("fill", function(d){
             return ColorProvider.colorForKey(d.country);
@@ -266,10 +316,10 @@ LineGraph.prototype.render = function( datasets ) {
 
             tip.show(data);
 
-            var max = _.max( data, function(d){ return d.number } );
+            var max = _.max( data, function(d){ return d[valueKey] } );
 
             var positionX = xScale(d.year);
-            var positionY = yScale(max.number);
+            var positionY = yScale(max[valueKey]);
             focusLine
                 .attr("x1", positionX )
                 .attr("x2", positionX )
@@ -305,6 +355,7 @@ d3.tsv("data.tsv", type, function(error, data) {
   }
 
   timeline.addData( datasets[0] );
+  console.log(datasets[0]);
 
   // data
   // self.datasets = dataset;
