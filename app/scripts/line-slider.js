@@ -1,10 +1,8 @@
-
-var chartID = "#chart";
-var quarterChar = "○";
+var chartID        = "#chart";
 var X_AXIS_PADDING = 30;
-var margin = {top: 20, right: 20, bottom: 30, left: 50},
-    width = 960 - margin.left - margin.right,
-    height = 200 - margin.top - margin.bottom + X_AXIS_PADDING ;
+var margin = {top: 20, right: 20, bottom: 30, left: 50};
+var width = 960 - margin.left - margin.right;
+var height = 200 - margin.top - margin.bottom + X_AXIS_PADDING;
 
 var MIN_YEAR = 2007;
 var MAX_YEAR = 2015;
@@ -52,7 +50,7 @@ var tip = d3.tip()
   .offset([-10, 50])
   .html(function(d) {
     return "<strong>Value </strong> <span style='color:red'>" + d.close + "</span>";
-  })
+})
 
 function createGraph( data ) {
   x.domain(d3.extent(data, function(d) { return d.year; }));
@@ -110,8 +108,7 @@ function createGraph( data ) {
       .attr("transform", "rotate(-90)")
       .attr("y", 6)
       .attr("dy", ".71em")
-      .style("text-anchor", "end")
-      .text("Number of Submission");
+      .style("text-anchor", "end");
 
   svg.append("path")
       .datum(data)
@@ -168,11 +165,20 @@ function createGraph( data ) {
         tip.hide(d);
         focusLine.style("opacity", 0 );
     });
+
+    d3.select("#timeline-panel")
+        .select("ul")
+        // .enter()
+        .append("li")
+        .html(function(d){
+            return "<li><span>●</span>Thailand</li>";
+        })
+        .select("span")
+        .style("color","red");
 }
 
 function type(d) {
   d.year =  +d.year;
   d.close = +d.close;
-  // d.quarter = +d.quarter;
   return d;
 }
