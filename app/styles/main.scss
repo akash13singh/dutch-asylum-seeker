@@ -16,131 +16,27 @@ html, body {
   font-size: $font-size;
 }
 
-*-button {
-    cursor:pointer;
-}
-
-#map-container {
-    position: relative;
+.column {
+    float: left;
     height: 100%;
-}
 
-#map {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 100%;
+    $left-width: 17;
 
-    .mapbox-improve-map {
-        display: none;
+    &.left {
+        width: $left-width + %;
+        background: #113063;
     }
-}
-
-#top-box {
-    position: absolute;
-    top: 0px;
-    width: 100%;
-    text-align: center;
-    z-index: 2000;
-    background: white;
-    padding: $padding;
-}
-
-#bottom-box {
-    position: absolute;
-    bottom: 0px;
-    text-align: center;
-    width: 100%;
-
-    .content {
-        width: 70%;
-        text-align: center;
-        margin: 0 auto;
-        position: relative;
-
-        div {
-            padding: $padding;
+    &.right {
+        width: ( 100 - $left-width ) + %;
+        $map-height: 70;
+        #map { 
+            height: $map-height + %;
+            z-index: 0px;
+        }
+        #timeline {
+            background: red;
+            height : ( 100 - $map-height ) + %;
+            z-index: 2000;
         }
     }
-
-}
-
-#year-panel {
-    background: gray;
-    display: inline-block;
-    width: 100%;
-}
-
-#country-graph {
-    $height: 200px;
-    position: absolute;
-    background: pink;
-    width: 100%;
-    height: $height;
-    top: -($height+$padding*2);
-    display: none;
-
-    &.show {
-        display: block;
-    }
-
-    #close-button {
-        float: right;
-        cursor: pointer;
-    }
-}
-
-#left-box {
-    z-index: 2000;
-    position: absolute;
-    float: right;
-    width: 18%;
-    background: yellow;
-    top: 0px;
-    left: 0px;
-    padding: $padding;
-
-    h1 {
-        padding: 0px;
-        margin: 0px;
-        font-size: 1.5*$font-size;
-    }
-
-    span {
-        display: block;
-        font-size: 0.8*$font-size;
-        word-break: break-word;
-        word-wrap:break-word;
-        width:auto; 
-        display:inline-block;
-        line-height: $font-size+0.2;
-    }
-}
-
-#right-box {
-    z-index: 2000;
-    position: absolute;
-    float: right;
-    width: 20%;
-    background: yellow;
-    top: 0px;
-    right: 0px;
-    padding: $padding;
-
-    span.input-wrapper {
-        display: block;
-        width: 100%;
-        overflow: hidden;
-        input {
-            width: 100%;
-        }
-    }
-}
-
-#show-graph {
-    position: absolute;
-    right: 0px;
-    bottom: 20%;
-    background: yellow;
-    cursor: pointer;
 }
