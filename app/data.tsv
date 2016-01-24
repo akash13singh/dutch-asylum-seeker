@@ -1,9 +1,17 @@
-year	close
-2007	200
-2008	199
-2009	170
-2010	400
-2011	500
-2012	300
-2013	300
-2014	200
+country	year	number
+Thailand	2007	200
+Thailand	2008	199
+Thailand	2009	170
+Thailand	2010	400
+Thailand	2011	500
+Thailand	2012	300
+Thailand	2013	300
+Thailand	2014	200
+India	2007	1005
+India	2008	1990
+India	2009	1700
+India	2010	3220
+India	2011	5500
+India	2012	3000
+India	2013	1324
+India	2014	1245

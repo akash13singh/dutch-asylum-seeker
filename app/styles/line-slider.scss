@@ -21,6 +21,8 @@ body {
 
 #timeline-panel {
     ul {
+        display: inline-block;
+        float: right;
         padding-left: 0px;
         li {
             display: inline-block;
@@ -30,6 +32,9 @@ body {
                 font-size: 20px;
             }
         }
+    }
+    .legend { 
+        padding: 0px 3px;
     }
 }
 
