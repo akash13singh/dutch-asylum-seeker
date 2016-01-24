@@ -1,7 +1,8 @@
 {
-  "name": "geometric-game",
+  "name": "Dutch Asylum",
   "private": true,
   "dependencies": {
-    "arc.js": "~0.1.0"
+    "d3": "~3.5.13",
+    "topojson": "~1.6.20"
   }
 }

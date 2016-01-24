@@ -17,11 +17,10 @@
     <!-- endbuild -->
 
     <!-- External style -->
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.12.2/mapbox-gl.css' rel='stylesheet' />
     <link href='https://fonts.googleapis.com/css?family=Oswald:300,400,700' rel='stylesheet' type='text/css'>
 
     <!-- build:css styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/map.css">
     <!-- endbuild -->
 
     <!-- External Dependencies -->
@@ -33,41 +32,7 @@
     <![endif]-->
     <!-- <div id="top-box"> --> 
     <!-- </div> -->
-    <div id="map-container">
-        <div id="map"></div>
-    </div>
-
-    <div id="left-box">
-        <h1>Let's go to the Netherlands!</h1>
-        <span>
-            Number of asylum request to the Netherlands between 2007 - 2015
-        </span>
-    </div>
-
-    <div id="right-box">
-        <span class="input-wrapper">
-            <input type="text" placeholder="Search by country or continent" />
-        </span>
-        Gender :
-        <input type="checkbox"/> Male
-        <input type="checkbox"/> Female
-    </div>
-
-    <div id="show-graph">Show Graph</div>
-
-    <div id="bottom-box">
-        <div class="content">
-            <div id="country-graph">
-                Line graph
-                <span id="close-button">[x]</span>
-            </div>
-            <div id="year-panel">
-                2007 - 2008 - 2009
-            </div>
-        </div>
-    </div>
-
-
+    <div id="map"></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
@@ -80,17 +45,16 @@
     </script>
 
     <!-- build:js scripts/vendor.js -->
-    <script src="../bower_components/arc.js/arc.js"></script>
     <!-- bower:js -->
+    <script src="/bower_components/d3/d3.js"></script>
+    <script src="/bower_components/topojson/topojson.js"></script>
+    <script src="//d3js.org/queue.v1.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.12.2/mapbox-gl.js'></script>
-    <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
     <!-- build:js scripts/main.js -->
-    <script src="scripts/config.js"></script>
-    <script src="scripts/main.js"></script>
+    <script src="scripts/map.js"></script>
     <!-- endbuild -->
   </body>
 </html>
