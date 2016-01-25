@@ -559,6 +559,7 @@ init();
 
 
 function ready(error,world, asylumRequests ){
+    asylumData = {}
     console.log(error);
 
     console.log(world);
@@ -584,7 +585,7 @@ function ready(error,world, asylumRequests ){
     for (var i = 0; i < asylumRequests.length; i++) {
         var obj = asylumRequests[i];
         //console.log(obj);
-        if(asylum[obj["Country"]]== null){
+        if(asylumData[obj["Country"]]== null){
         	 tmp ={};
         	 //TODO : remove later. done to simplify json building
         	 tmp['Citizenship'] = obj['Citizenship'];
@@ -599,7 +600,7 @@ function ready(error,world, asylumRequests ){
         	 tmp[obj['Periods']]['Total'] = +obj['number'];
         	 tmp[obj['Periods']][obj['Sex']][obj['Age']] =  +obj['number'];
         	 //console.log(JSON.stringify(tmp));
-        	 asylum[obj["Country"]]  = tmp;
+        	 asylumData[obj["Country"]]  = tmp;
         }
        else{
          tmp[obj['Periods']]['Total'] += +obj['number'];
@@ -607,6 +608,7 @@ function ready(error,world, asylumRequests ){
        }
     }
 
+    asylum = asylumData;
 
     _.forEach( asylum, function( country, countryName ){
         country.toYearlyData = function(){
