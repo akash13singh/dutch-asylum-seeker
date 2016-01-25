@@ -7,7 +7,7 @@ $padding: 5px;
 $font-size: 1em;
 
 html, body {
-  background: #fafafa;
+  background: #D46922;
   font-family: $font-family;
   color: #333;
   height: 100%;
@@ -24,7 +24,7 @@ html, body {
 
     &.left {
         width: $left-width + %;
-        background: #113063;
+        background: #ED7D58;
     }
     &.right {
         width: ( 100 - $left-width ) + %;
@@ -34,7 +34,7 @@ html, body {
             z-index: 0px;
         }
         #timeline {
-            background: red;
+            background: #AB401D;
             height : ( 100 - $map-height ) + %;
             z-index: 2000;
         }

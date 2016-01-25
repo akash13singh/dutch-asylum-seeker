@@ -97,7 +97,7 @@ Map.prototype.colorMap = function(year){
     var self     = this;
     var present = [];
     //Define default colorbrewer scheme
-	var colorSchemeSelect = "Greens";
+	var colorSchemeSelect = "YlOrBr";
 	var colorScheme = colorbrewer[colorSchemeSelect]; 
 
 	//define default number of quantiles
