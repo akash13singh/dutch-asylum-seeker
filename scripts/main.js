@@ -542,6 +542,7 @@ d3.tsv("data.tsv", type, function(error, data) {
 
 
 function init (){
+    console.log('init');
     queue().defer(d3.json, "./data/world-topo-min.json")
         .defer(d3.csv, "./data/dutch.csv")
         .await(ready);
