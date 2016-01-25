@@ -625,3 +625,5 @@ function ready(error,world, asylumRequests ){
     map.draw( asylum );
     timeline.addData( asylum[config.country].toYearlyData() );
 }
+
+init();
