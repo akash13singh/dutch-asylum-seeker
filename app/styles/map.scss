@@ -1,6 +1,11 @@
+.country {
+    stroke: #ccc;
+    stroke-width: 1px;
+}
+
 .country:hover{
-    stroke: #fff;
-    stroke-width: 1.5px;
+    stroke: #ED8FF2;
+    stroke-width: 2px;
 }
 
 .text{
@@ -8,13 +13,13 @@
     text-transform:capitalize;
 }
 
-#container {
+#map {
     margin:10px 10%;
-    border:2px solid #000;
+    border:1px solid #000;
     border-radius: 5px;
     height:100%;
     overflow:hidden;
-    background: #F0F8FF;
+    background: #B1FAF6;
 }
 
 hidden {
@@ -42,4 +47,8 @@ div.tooltip {
 .equator {
     stroke: #ccc;
     stroke-width: 1px;
+}
+
+.legend {
+  font-size: 12px;
 }
