@@ -29,7 +29,7 @@ function TimelineGraph( id, options ){
     var YEAR_RANGE     = [MIN_YEAR, MAX_YEAR -1 ];
     var X_AXIS_PADDING = 30;
 
-    var boxWidth = this.element.node().getBoundingClientRect().width;
+    var boxWidth = document.getElementById("timeline").offsetWidth;
     var margin   = {top: 20, right: 20, bottom: 30, left: 50};
     var width    = boxWidth - margin.left - margin.right;
     var height   = 200 - margin.top - margin.bottom + X_AXIS_PADDING;
@@ -116,7 +116,7 @@ function TimelineGraph( id, options ){
         });
 
     this.tip = d3.tip()
-        .attr('class', 'd3-tip')
+        .attr('class', 'timeline-tip')
         .offset([-10, 50])
         .html(function(data) {
             return JSON.stringify(data);
@@ -357,8 +357,5 @@ d3.tsv("data.tsv", type, function(error, data) {
   timeline.addData( datasets[0] );
   console.log(datasets[0]);
 
-  // data
-  // self.datasets = dataset;
-  // l.render( dataset );
 });
 

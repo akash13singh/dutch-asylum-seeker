@@ -2,24 +2,24 @@ body {
   font: 10px sans-serif;
 }
 
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
 
-.x.axis path {
-  display: none;
-}
+#timeline {
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
 
-.line {
-  fill: none;
-  // stroke: steelblue;
-  stroke-width: 1.5px;
-}
+    .x.axis path {
+      display: none;
+    }
 
-#timeline-panel {
+    .line {
+      fill: none;
+      stroke-width: 1.5px;
+    }
+
     ul {
         display: inline-block;
         float: right;
@@ -36,9 +36,10 @@ body {
     .legend { 
         padding: 0px 3px;
     }
+
 }
 
-#chart {
+#timeline #chart {
     .tick {
         cursor: pointer;
     }
@@ -70,7 +71,7 @@ body {
     }
 }
 
-.d3-tip {
+.timeline-tip {
   line-height: 1;
   font-weight: bold;
   padding: 12px;
@@ -80,7 +81,7 @@ body {
 }
 
 /* Style northward tooltips differently */
-.d3-tip.n:after {
+.timeline-tip.n:after {
   margin: -1px 0 0 0;
   top: 100%;
   left: 0;

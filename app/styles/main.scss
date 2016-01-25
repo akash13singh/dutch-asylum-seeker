@@ -28,13 +28,13 @@ html, body {
     }
     &.right {
         width: ( 100 - $left-width ) + %;
-        $map-height: 70;
+        $map-height: 65;
         #map { 
             height: $map-height + %;
             z-index: 0px;
         }
         #timeline {
-            background: red;
+            background: white;
             height : ( 100 - $map-height ) + %;
             z-index: 2000;
         }
