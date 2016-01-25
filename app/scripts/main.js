@@ -18,6 +18,13 @@ function ready(error,world, asylumRequests ){
     map = new Map("#map");
     timeline = new TimelineGraph("#timeline");
 
+    map.onClick = function( d, i ){
+        var countryName = d.properties.name;
+        if( asylum[countryName] ) {
+            timeline.addData( asylum[countryName].toYearlyData() );
+        }
+    }
+
     var countries = topojson.feature(world, world.objects.countries).features;
     map.topo = countries;
 

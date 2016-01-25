@@ -84,12 +84,7 @@ Map.prototype.draw = function(){
         self.tooltip.classed("hidden", true);
       });
 
-	//click
-	country.on("click",function(d,i){
-		window.alert(d.properties.name);
-	});
-
-
+	country.on("click", this.onClick );
 
 }
 
