@@ -1,0 +1,42 @@
+// bower:scss
+// endbower
+
+$font-family: 'Oswald', sans-serif;
+
+$padding: 5px;
+$font-size: 1em;
+
+html, body {
+  background: #fafafa;
+  font-family: $font-family;
+  color: #333;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  font-size: $font-size;
+}
+
+.column {
+    float: left;
+    height: 100%;
+
+    $left-width: 17;
+
+    &.left {
+        width: $left-width + %;
+        background: #113063;
+    }
+    &.right {
+        width: ( 100 - $left-width ) + %;
+        $map-height: 65;
+        #map { 
+            height: $map-height + %;
+            z-index: 0px;
+        }
+        #timeline {
+            background: white;
+            height : ( 100 - $map-height ) + %;
+            z-index: 2000;
+        }
+    }
+}
