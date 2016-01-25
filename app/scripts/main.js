@@ -14,6 +14,10 @@ queue().defer(d3.json, "./data/world-topo-min.json")
 
 
 function ready(error,world, asylumRequests ){
+    console.log(error);
+
+    console.log(world);
+    console.log(asylumRequests);
     map = new Map("#map");
     timeline = new TimelineGraph("#timeline");
 
