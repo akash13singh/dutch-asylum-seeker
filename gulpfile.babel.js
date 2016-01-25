@@ -77,9 +77,7 @@ gulp.task('fonts', () => {
 });
 
 gulp.task('extras', () => {
-    gulp.src('app/data/**/*').pipe(gulp.dest("dist/data"));
     return gulp.src([
-        '',
         'app/*.*',
         '!app/*.html'
     ],{
@@ -88,18 +86,19 @@ gulp.task('extras', () => {
 });
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
+gulp.task('copy', () => { return gulp.src("app/data/*.*").pipe(gulp.dest('dist/data')) });
 
 gulp.task('serve', ['styles', 'fonts'], () => {
-  // browserSync({
-  //   notify: false,
-  //   port: 9000,
-  //   server: {
-  //     baseDir: ['.tmp', 'app'],
-  //     routes: {
-  //       '/bower_components': 'bower_components'
-  //     }
-  //   }
-  // });
+  browserSync({
+    notify: false,
+    port: 9000,
+    server: {
+      baseDir: ['.tmp', 'app'],
+      routes: {
+        '/bower_components': 'bower_components'
+      }
+    }
+  });
 
   gulp.watch([
     'app/*.html',
@@ -154,7 +153,7 @@ gulp.task('wiredep', () => {
     .pipe(gulp.dest('app'));
 });
 
-gulp.task('build', ['lint', 'html', 'images', 'fonts', 'extras'], () => {
+gulp.task('build', ['lint', 'html', 'images', 'fonts', 'extras', 'copy' ], () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
