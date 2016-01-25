@@ -8,9 +8,14 @@ var datasets = [[],[]];
 var map;
 var timeline;
 
+function init (){
 queue().defer(d3.json, "./data/world-topo-min.json")
     .defer(d3.csv, "./data/dutch.csv")
     .await(ready);
+}
+
+init();
+
 
 
 function ready(error,world, asylumRequests ){
