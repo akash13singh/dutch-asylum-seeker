@@ -538,14 +538,6 @@ d3.tsv("data.tsv", type, function(error, data) {
 });
 
 
-config = {
-    country : "Turkey",
-    year: "2008"
-};
-
-asylum = {};
-var map;
-var timeline;
 
 function init (){
 queue().defer(d3.json, "./data/world-topo-min.json")
@@ -558,7 +550,14 @@ init();
 
 
 function ready(error,world, asylumRequests ){
-    console.log(error);
+    var config = {
+        country : "Turkey",
+        year: "2008"
+    };
+
+    var asylum = {};
+    var map;
+    var timeline;
 
     console.log(world);
     console.log(asylumRequests);
