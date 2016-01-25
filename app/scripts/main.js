@@ -1,33 +1,25 @@
-    queue().defer(d3.json, "data/world-topo-min.json")
-        .defer(d3.csv, "data/dutch.csv")
-        .defer(d3.tsv, "data.tsv")
-        .await(ready);
+var config = {
+    country : "Turkey",
+    year: "2008"
+};
 
 var asylum = {};
-
 var datasets = [[],[]];
 var map;
 var timeline;
 
-function ready(error,world, asylumRequests, patMock){
+queue().defer(d3.json, "data/world-topo-min.json")
+    .defer(d3.csv, "data/dutch.csv")
+    .defer(d3.tsv, "data.tsv")
+    .await(ready);
+
+
+function ready(error,world, asylumRequests ){
     map = new Map("#map");
     timeline = new TimelineGraph("#timeline");
 
     var countries = topojson.feature(world, world.objects.countries).features;
     map.topo = countries;
-
-    //* Mock data //
-      for( var i = 0; i< patMock.length; i++ ){
-          var index = 0;
-          if( patMock[i].country == "India" ){
-              index = 1;
-          }
-          datasets[index].push(patMock[i]);
-
-      }
-
-  timeline.addData( datasets[0] );
-  console.log(datasets[0]);
 
     //load csv and build json
     for (var i = 0; i < asylumRequests.length; i++) {
@@ -56,12 +48,21 @@ function ready(error,world, asylumRequests, patMock){
        }
     }
 
+
+    _.forEach( asylum, function( country, countryName ){
+        country.toYearlyData = function(){
+            var data =  _.map( country, function( obj, year ) {
+                return {
+                    country: countryName,
+                    number: obj.Total,
+                    year: parseInt(year)
+                }
+            });
+            return _.filter( data, "year");
+        }
+    });
+
+
     map.draw( asylum );
+    timeline.addData( asylum[config.country].toYearlyData() );
 }
-
-
-d3.tsv("data.tsv", type, function(error, data) {
-  if (error) throw error;
-
-
-});

@@ -145,8 +145,12 @@ TimelineGraph.prototype.addData = function(data){
         if( i == 0 ) {
             d.relative = 0;
         } else {
-            var prev = data[i-1];
-            d.relative = ( d.number - prev.number ) / prev.number ;
+            var dominator = data[i-1].number;
+            if( dominator == 0 ) {
+                console.log(data[i-1]);
+                dominator = 1;
+            }
+            d.relative = ( d.number - data[i-1].number ) / dominator;
         }
     })
 
