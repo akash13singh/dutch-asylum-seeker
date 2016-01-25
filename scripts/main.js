@@ -542,14 +542,13 @@ d3.tsv("data.tsv", type, function(error, data) {
 
 
 function init (){
-queue().defer(d3.json, "./data/world-topo-min.json")
-    .defer(d3.csv, "./data/dutch.csv")
-    .await(ready);
+    queue().defer(d3.json, "./data/world-topo-min.json")
+        .defer(d3.csv, "./data/dutch.csv")
+        .await(ready);
 }
 
-init();
 
-
+document.addEventListener('DOMContentLoaded', init );
 
 function ready(error,world, asylumRequests ){
     var config = {
