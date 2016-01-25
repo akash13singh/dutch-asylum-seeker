@@ -298,7 +298,11 @@ function TimelineGraph( id, options ){
             return JSON.stringify(data);
         });
 
-    this.svg.call(this.tip);
+        try{
+            this.svg.call(this.tip);
+        } catch(err) {
+            console.log(err);
+        }
 
     this.focusLine = this.svg.append("line")
         .attr("class", "focus-line")
@@ -549,7 +553,7 @@ function init (){
 }
 
 
-document.addEventListener('DOMContentLoaded', init );
+// document.addEventListener('DOMContentLoaded', init );
 
 function ready(error,world, asylumRequests ){
     var config = {
