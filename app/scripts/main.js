@@ -8,9 +8,8 @@ var datasets = [[],[]];
 var map;
 var timeline;
 
-queue().defer(d3.json, "data/world-topo-min.json")
-    .defer(d3.csv, "data/dutch.csv")
-    .defer(d3.tsv, "data.tsv")
+queue().defer(d3.json, "./data/world-topo-min.json")
+    .defer(d3.csv, "./data/dutch.csv")
     .await(ready);
 
 

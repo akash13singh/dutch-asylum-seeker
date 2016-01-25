@@ -77,27 +77,29 @@ gulp.task('fonts', () => {
 });
 
 gulp.task('extras', () => {
-  return gulp.src([
-    'app/*.*',
-    '!app/*.html'
-  ], {
-    dot: true
-  }).pipe(gulp.dest('dist'));
+    gulp.src('app/data/**/*').pipe(gulp.dest("dist/data"));
+    return gulp.src([
+        '',
+        'app/*.*',
+        '!app/*.html'
+    ],{
+        dot: true
+    }).pipe(gulp.dest('dist'));
 });
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
 gulp.task('serve', ['styles', 'fonts'], () => {
-  browserSync({
-    notify: false,
-    port: 9000,
-    server: {
-      baseDir: ['.tmp', 'app'],
-      routes: {
-        '/bower_components': 'bower_components'
-      }
-    }
-  });
+  // browserSync({
+  //   notify: false,
+  //   port: 9000,
+  //   server: {
+  //     baseDir: ['.tmp', 'app'],
+  //     routes: {
+  //       '/bower_components': 'bower_components'
+  //     }
+  //   }
+  // });
 
   gulp.watch([
     'app/*.html',
