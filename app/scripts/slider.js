@@ -94,6 +94,9 @@ function TimelineGraph( id, options ){
                 .classed("selected",function(e,j){
                     return i == j;
                 });
+
+            /* Call event outside */
+            self.onClick(d,i);
         });
 
     this.tip = d3.tip()

@@ -25,6 +25,10 @@ function ready(error,world, asylumRequests ){
         }
     }
 
+    timeline.onClick = function( d, i ){
+        map.colorMap( d );
+    }
+
     var countries = topojson.feature(world, world.objects.countries).features;
     map.topo = countries;
 
