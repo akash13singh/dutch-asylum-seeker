@@ -76,6 +76,6 @@ function ready(error,world, asylumRequests ){
     });
 
 
-    map.draw( asylum );
+    map.draw();
     timeline.addData( asylum[config.country].toYearlyData() );
 }

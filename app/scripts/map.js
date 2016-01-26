@@ -38,11 +38,8 @@ function Map( id ){
 }
 
 
-Map.prototype.draw = function(asylum){
+Map.prototype.draw = function(){
     var self     = this;
-    self.data = asylum;
-
-
     var country = this.svg
         .selectAll(".country").data(this.topo);
 
@@ -94,7 +91,6 @@ Map.prototype.draw = function(asylum){
 Map.prototype.colorMap = function(year){
     var self     = this;
     var present = [];
-    var data   = self.data;
     
     //Define default colorbrewer scheme
 	var colorSchemeSelect = "Oranges";
@@ -111,14 +107,14 @@ Map.prototype.colorMap = function(year){
     var colorDomain =  [];
     var minDomain = 999999;
     var maxDomain = 0;
-    for (var key in data){
+    for (var key in asylum){
     	present.push(key);
-    	colorDomain.push[data[key][year]["Total"]];
-    	if(minDomain > data[key][year]["Total"]){
-    		minDomain = data[key][year]["Total"];
+    	colorDomain.push[asylum[key][year]["Total"]];
+    	if(minDomain > asylum[key][year]["Total"]){
+    		minDomain = asylum[key][year]["Total"];
     	}
-    	if(maxDomain < data[key][year]["Total"]){
-    		maxDomain = data[key][year]["Total"];
+    	if(maxDomain < asylum[key][year]["Total"]){
+    		maxDomain = asylum[key][year]["Total"];
     	}
     }
     color.domain([minDomain,maxDomain]);
@@ -128,8 +124,8 @@ Map.prototype.colorMap = function(year){
     this.svg
         .selectAll(".country")
         .style("fill", function(d, i) {
-            if(data[d.properties.name]){
-                return color(data[d.properties.name][year]['Total']);
+            if(asylum[d.properties.name]){
+                return color(asylum[d.properties.name][year]['Total']);
             }
             return "#DDE7EB";
         });
