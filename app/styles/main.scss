@@ -20,12 +20,12 @@ html, body {
     float: left;
     height: 100%;
 
-    $left-width: 17;
+    $left-width: 25;
 
     &.left {
         width: $left-width + %;
-        background: #ED7D58;
     }
+
     &.right {
         width: ( 100 - $left-width ) + %;
         $map-height: 65;

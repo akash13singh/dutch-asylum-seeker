@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/map.css">
     <link rel="stylesheet" href="styles/line-slider.css">
+    <link rel="stylesheet" href="styles/left-column.css">
     <!-- endbuild -->
 
     <!-- External Dependencies -->
@@ -34,7 +35,41 @@
     <![endif]-->
     <!-- <div id="top-box"> -->
     <!-- </div> -->
-    <div class="left column"></div>
+    <div class="left column">
+        <div class="wrapper">
+            <select id="year-selector">
+                <option>2008</option>
+            </select>
+            There were <span id="total-number">2,000</span> submissions.
+            <div>
+                <div class="pie-chart" id="gender-chart"></div>
+                <div class="pie-chart" id="age-group-chart"></div>
+            </div>
+            <h3>Top 3 Countries</h3>
+            <table>
+                <tr>
+                    <td>Rank</td>
+                    <td>Country</td>
+                    <td>Number</td>
+                </tr>
+                <tr>
+                    <td>1st</td>
+                    <td>China</td>
+                    <td>3,000</td>
+                </tr>
+                <tr>
+                    <td>1st</td>
+                    <td>China</td>
+                    <td>3,000</td>
+                </tr>
+                <tr>
+                    <td>1st</td>
+                    <td>China</td>
+                    <td>3,000</td>
+                </tr>
+            </table>
+        </div>
+    </div>
     <div class="right column">
         <div id="map"></div>
         <div id="timeline">
@@ -61,10 +96,12 @@
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/d3/d3.js"></script>
     <script src="/bower_components/topojson/topojson.js"></script>
     <script src="/bower_components/colorbrewer/colorbrewer.js"></script>
     <script src="/bower_components/lodash/lodash.js"></script>
+    <script src="/bower_components/d3pie/d3pie/d3pie.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -78,6 +115,7 @@
     <script src="scripts/map.js"></script>
     <script src="scripts/slider.js"></script>
     <script src="scripts/main.js"></script>
+    <script src="scripts/pie-chart.js"></script>
     <!-- endbuild -->
   </body>
 </html>
