@@ -38,7 +38,7 @@ function Map( id ){
 }
 
 Map.prototype.draw = function(){
-    var self     = this;
+    var self = this;
     
     var country = this.svg
         .selectAll(".country").data(this.topo);
@@ -97,7 +97,7 @@ Map.prototype.colorMap = function(year){
     var self     = this;
     var present = [];
     //Define default colorbrewer scheme
-	var colorSchemeSelect = "YlOrBr";
+	var colorSchemeSelect = "Oranges";
 	var colorScheme = colorbrewer[colorSchemeSelect]; 
 
 	//define default number of quantiles
