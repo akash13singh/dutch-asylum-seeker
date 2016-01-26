@@ -11,9 +11,10 @@ function TimelineGraph( id, options ){
     var X_AXIS_PADDING = 30;
 
     var boxWidth = document.getElementById("timeline").offsetWidth;
-    var margin   = {top: 20, right: 20, bottom: 30, left: 50};
+    var margin   = {top: 20, right: 50, bottom: 30, left: 50};
     var width    = boxWidth - margin.left - margin.right;
-    var height   = 200 - margin.top - margin.bottom + X_AXIS_PADDING;
+    var height   = width / 6;
+    height = height - margin.top - margin.bottom + X_AXIS_PADDING;
 
     this.height = height;
     this.width  = width;
@@ -323,31 +324,3 @@ LineGraph.prototype.render = function( datasets ) {
             focusLine.style("opacity", 0 );
         });
 }
-
-function type(d) {
-  d.year =  +d.year;
-  d.number = +d.number;
-  return d;
-}
-
-
-var datasets = [[],[]];
-var timeline = new TimelineGraph("#timeline-panel");
-
-d3.tsv("data.tsv", type, function(error, data) {
-  if (error) throw error;
-
-  for( var i = 0; i<data.length; i++ ){
-      var index = 0;
-      if( data[i].country == "India" ){
-          index = 1;
-      }
-      datasets[index].push(data[i]);
-
-  }
-
-  timeline.addData( datasets[0] );
-  console.log(datasets[0]);
-
-});
-
