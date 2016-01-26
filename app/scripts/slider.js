@@ -3,8 +3,6 @@ function TimelineGraph( id, options ){
     this.element = d3.select(id);
     this.datasets = [];
 
-    var FOCUS_YEAR = 2010;
-
     var MIN_YEAR       = 2007;
     var MAX_YEAR       = 2015;
     var YEAR_RANGE     = [MIN_YEAR, MAX_YEAR -1 ];
@@ -62,13 +60,14 @@ function TimelineGraph( id, options ){
       .attr("class", "year-selector" )
       .style("stroke", "black");
 
-    var currentX = xScale(FOCUS_YEAR);
+    var currentX = xScale(config.year);
     var currentYearLine = this.svg.append("line")
         .attr("class", "focus-line current" )
         .attr("x1", currentX )
         .attr("x2", currentX )
         .attr("y1", 0 )
         .attr("y2", height + X_AXIS_PADDING/4 )
+    this.currentYearLine = currentYearLine;
 
     timeSelector.append("g")
         .selectAll('circle')
@@ -76,7 +75,7 @@ function TimelineGraph( id, options ){
         .enter().append('circle')
         .attr("class", "year-bullet")
         .classed("selected", function(d){
-            return d== FOCUS_YEAR;
+            return d == config.year;
         })
         .attr("cx", function(d) {
             return xScale(d);
@@ -84,17 +83,8 @@ function TimelineGraph( id, options ){
         .attr("cy", yTimeSelector )
         .attr("r", 8 )
         .on("click", function(d,i){
-            var xPos = xScale(d);
-            currentYearLine.attr("x1", xPos )
-                .attr("x2", xPos )
-                .attr("y1", 0 );
 
-
-            d3.select("#chart")
-                .selectAll(".year-bullet")
-                .classed("selected",function(e,j){
-                    return i == j;
-                });
+            self.setPointerToYear(d);
 
             /* Call event outside */
             self.onClick(d,i);
@@ -201,6 +191,21 @@ TimelineGraph.prototype.render = function(){
     _.each( this.graphs, function(g){
         g.render(self.datasets);
     });
+}
+
+TimelineGraph.prototype.setPointerToYear = function(year){
+    var xPos   = this.xScale(year);
+
+    this.currentYearLine.attr("x1", xPos )
+        .attr("x2", xPos )
+        .attr("y1", 0 );
+
+
+    d3.select("#chart")
+        .selectAll(".year-bullet")
+        .classed("selected",function(d){
+            return year == d;
+        });
 }
 
 function LineGraph( parent, id, valueKey ){

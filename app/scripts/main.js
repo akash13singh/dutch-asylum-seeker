@@ -1,6 +1,7 @@
 var asylum = {};
 var map;
 var timeline;
+var yearSelector;
 
 queue().defer(d3.json, "./data/world-topo-min.json")
     .defer(d3.csv, "./data/dutch.csv")
@@ -14,6 +15,7 @@ function ready(error,world, asylumRequests ){
 
     map = new Map("#map");
     timeline = new TimelineGraph("#timeline");
+    yearSelector = new YearSelector("#year-selector");
 
     map.onClick = function( d, i ){
         var countryName = d.properties.name;
@@ -24,6 +26,7 @@ function ready(error,world, asylumRequests ){
 
     timeline.onClick = function( d, i ){
         map.colorMap( d );
+        yearSelector.setYear(d);
     }
 
     var countries = topojson.feature(world, world.objects.countries).features;
@@ -73,9 +76,9 @@ function ready(error,world, asylumRequests ){
 
     map.draw( asylum );
     timeline.addData( asylum[config.country].toYearlyData() );
-}
 
-var yearSelector = new YearSelector("#year-selector");
-yearSelector.onChange = function(d){
-    map.colorMap( d );
+    yearSelector.onChange = function(d){
+        timeline.setPointerToYear(d);
+        map.colorMap(d);
+    }
 }
