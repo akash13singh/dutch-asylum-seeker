@@ -1,8 +1,3 @@
-var config = {
-    country : "Turkey",
-    year: "2008"
-};
-
 var asylum = {};
 var map;
 var timeline;
@@ -78,4 +73,9 @@ function ready(error,world, asylumRequests ){
 
     map.draw( asylum );
     timeline.addData( asylum[config.country].toYearlyData() );
+}
+
+var yearSelector = new YearSelector("#year-selector");
+yearSelector.onChange = function(d){
+    map.colorMap( d );
 }
