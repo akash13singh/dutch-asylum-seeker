@@ -1,34 +1,81 @@
-mapboxgl.accessToken = 'pk.eyJ1IjoiaGV5dGl0bGUiLCJhIjoiY2lqNW8zZnhkMDA2b3Y2a3Jsbmh1a3JsNiJ9.p3e9Zm5lDqv2nX6jaQ5VEg';
-var map = new mapboxgl.Map({
-    container: 'map', // container id
-    style: 'mapbox://styles/heytitle/cij5oaknb0031azkjc07pztam', //hosted style id
-    center: [
-        NETHERLAND_COORDINATE.lng,
-        NETHERLAND_COORDINATE.lat
-    ],
-    zoom: 3 // starting zoom
-});
-
-var start = {
-    x: NETHERLAND_COORDINATE.lng,
-    y: NETHERLAND_COORDINATE.lat,
-};
-var end = {
-    x: 34.5333,
-    y: 69.1333
+var config = {
+    country : "Turkey",
+    year: "2008"
 };
 
-var generator = new arc.GreatCircle( start, end, {'name': 'Seattle to DC'});
-generator.Arc(100,{offset:10} );
+var asylum = {};
+var map;
+var timeline;
 
-var closeButton = d3.select('#close-button');
+queue().defer(d3.json, "./data/world-topo-min.json")
+    .defer(d3.csv, "./data/dutch.csv")
+    .await(ready);
 
-closeButton.on("click", function() {
-  var graph = d3.select('#country-graph');
-  graph.classed('show', !graph.classed('show') );
-});
+function ready(error,world, asylumRequests ){
+    var config = {
+        country : "Turkey",
+        year: "2008"
+    };
 
-d3.select('#show-graph').on('click',function(){
-  var graph = d3.select('#country-graph');
-  graph.classed('show', !graph.classed('show') );
-});
+    map = new Map("#map");
+    timeline = new TimelineGraph("#timeline");
+
+    map.onClick = function( d, i ){
+        var countryName = d.properties.name;
+        if( asylum[countryName] ) {
+            timeline.addData( asylum[countryName].toYearlyData() );
+        }
+    }
+
+    timeline.onClick = function( d, i ){
+        map.colorMap( d );
+    }
+
+    var countries = topojson.feature(world, world.objects.countries).features;
+    map.topo = countries;
+
+    //load csv and build json
+    for (var i = 0; i < asylumRequests.length; i++) {
+        var obj = asylumRequests[i];
+        //console.log(obj);
+        if(asylum[obj["Country"]]== null){
+        	 tmp ={};
+        	 //TODO : remove later. done to simplify json building
+        	 tmp['Citizenship'] = obj['Citizenship'];
+        	 tmp[2007] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
+			 tmp[2008] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
+			 tmp[2009] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
+			 tmp[2010] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
+			 tmp[2011] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
+			 tmp[2012] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
+			 tmp[2013] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
+			 tmp[2014] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
+        	 tmp[obj['Periods']]['Total'] = +obj['number'];
+        	 tmp[obj['Periods']][obj['Sex']][obj['Age']] =  +obj['number'];
+        	 //console.log(JSON.stringify(tmp));
+        	 asylum[obj["Country"]]  = tmp;
+        }
+       else{
+         tmp[obj['Periods']]['Total'] += +obj['number'];
+         tmp[obj['Periods']][obj['Sex']][obj['Age']] +=  +obj['number'];
+       }
+    }
+
+
+    _.forEach( asylum, function( country, countryName ){
+        country.toYearlyData = function(){
+            var data =  _.map( country, function( obj, year ) {
+                return {
+                    country: countryName,
+                    number: obj.Total,
+                    year: parseInt(year)
+                }
+            });
+            return _.filter( data, "year");
+        }
+    });
+
+
+    map.draw( asylum );
+    timeline.addData( asylum[config.country].toYearlyData() );
+}

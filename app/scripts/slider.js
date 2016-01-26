@@ -1,22 +1,3 @@
-var ColorProvider = {
-    maps: {},
-    availableColors : ["#31a354", "orange" ,"steelblue"],
-    colorForKey: function(k){
-        if( !this.maps[k] ) {
-            var color = this.availableColors.pop();
-            this.maps[k] = color;
-        }
-        return this.maps[k];
-    },
-    releaseColor: function(k){
-        var color = this.maps[k];
-        if( color ){
-            this.availableColors.push(color);
-            delete this.maps[k];
-        }
-    }
-}
-
 function TimelineGraph( id, options ){
     var self     = this;
     this.element = d3.select(id);
@@ -29,10 +10,11 @@ function TimelineGraph( id, options ){
     var YEAR_RANGE     = [MIN_YEAR, MAX_YEAR -1 ];
     var X_AXIS_PADDING = 30;
 
-    var boxWidth = this.element.node().getBoundingClientRect().width;
-    var margin   = {top: 20, right: 20, bottom: 30, left: 50};
+    var boxWidth = document.getElementById("timeline").offsetWidth;
+    var margin   = {top: 20, right: 50, bottom: 30, left: 50};
     var width    = boxWidth - margin.left - margin.right;
-    var height   = 200 - margin.top - margin.bottom + X_AXIS_PADDING;
+    var height   = width / 6;
+    height = height - margin.top - margin.bottom + X_AXIS_PADDING;
 
     this.height = height;
     this.width  = width;
@@ -113,16 +95,23 @@ function TimelineGraph( id, options ){
                 .classed("selected",function(e,j){
                     return i == j;
                 });
+
+            /* Call event outside */
+            self.onClick(d,i);
         });
 
     this.tip = d3.tip()
-        .attr('class', 'd3-tip')
+        .attr('class', 'timeline-tip')
         .offset([-10, 50])
         .html(function(data) {
             return JSON.stringify(data);
         });
 
-    this.svg.call(this.tip);
+        try{
+            this.svg.call(this.tip);
+        } catch(err) {
+            console.log(err);
+        }
 
     this.focusLine = this.svg.append("line")
         .attr("class", "focus-line")
@@ -164,8 +153,12 @@ TimelineGraph.prototype.addData = function(data){
         if( i == 0 ) {
             d.relative = 0;
         } else {
-            var prev = data[i-1];
-            d.relative = ( d.number - prev.number ) / prev.number ;
+            var dominator = data[i-1].number;
+            if( dominator == 0 ) {
+                console.log(data[i-1]);
+                dominator = 1;
+            }
+            d.relative = ( d.number - data[i-1].number ) / dominator;
         }
     })
 
@@ -331,34 +324,3 @@ LineGraph.prototype.render = function( datasets ) {
             focusLine.style("opacity", 0 );
         });
 }
-
-function type(d) {
-  d.year =  +d.year;
-  d.number = +d.number;
-  return d;
-}
-
-
-var datasets = [[],[]];
-var timeline = new TimelineGraph("#timeline-panel");
-
-d3.tsv("data.tsv", type, function(error, data) {
-  if (error) throw error;
-
-  for( var i = 0; i<data.length; i++ ){
-      var index = 0;
-      if( data[i].country == "India" ){
-          index = 1;
-      }
-      datasets[index].push(data[i]);
-
-  }
-
-  timeline.addData( datasets[0] );
-  console.log(datasets[0]);
-
-  // data
-  // self.datasets = dataset;
-  // l.render( dataset );
-});
-

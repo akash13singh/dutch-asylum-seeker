@@ -5,10 +5,10 @@ function Map( id ){
     /*var rect = document.getElementById('map').offsetWidth
     this.width  = rect.width;
     this.height = rect.height;*/
-    
+
     this.width  = document.getElementById('map').offsetWidth;
     this.height = this.width/2;
-    
+
     var projection = d3.geo.mercator()
     	.translate([(this.width/2)-30, (this.height/2)+50])
     	.scale( this.width / 2 / Math.PI);
@@ -31,15 +31,18 @@ function Map( id ){
     var tooltip = this.element
         .append("div")
         .attr("class", "tooltip hidden");
-        
+
     this.tooltip = tooltip;
 
     this.topo = null;
 }
 
-Map.prototype.draw = function(){
-    var self = this;
-    
+
+Map.prototype.draw = function(asylum){
+    var self     = this;
+    self.data = asylum;
+
+
     var country = this.svg
         .selectAll(".country").data(this.topo);
 
@@ -65,7 +68,7 @@ Map.prototype.draw = function(){
 
     //fill color
     this.colorMap(2013);
-    
+
     //offsets for tooltips
     var boundary = this.element.node().getBoundingClientRect();
     var offsetL = boundary.left+20;
@@ -83,22 +86,20 @@ Map.prototype.draw = function(){
       .on("mouseout",  function(d,i) {
         self.tooltip.classed("hidden", true);
       });
-	
-	//click
-	country.on("click",function(d,i){
-		window.alert(d.properties.name);
-	});
-	
-	
-      
+
+	country.on("click", this.onClick );
+
 }
 
 Map.prototype.colorMap = function(year){
     var self     = this;
     var present = [];
+    var data   = self.data;
+    
     //Define default colorbrewer scheme
 	var colorSchemeSelect = "Oranges";
 	var colorScheme = colorbrewer[colorSchemeSelect]; 
+
 
 	//define default number of quantiles
 	var quantiles = 5;
@@ -106,33 +107,33 @@ Map.prototype.colorMap = function(year){
 	//Define quantile scale to sort data values into buckets of color
 	var color = d3.scale.quantile()
 	   .range(colorScheme[quantiles]);
-	   
+
     var colorDomain =  [];
     var minDomain = 999999;
     var maxDomain = 0;
-    for (var key in asylum){
-    	present.push(key);  
-    	colorDomain.push[asylum[key][year]["Total"]];
-    	if(minDomain > asylum[key][year]["Total"]){
-    		minDomain = asylum[key][year]["Total"];
+    for (var key in data){
+    	present.push(key);
+    	colorDomain.push[data[key][year]["Total"]];
+    	if(minDomain > data[key][year]["Total"]){
+    		minDomain = data[key][year]["Total"];
     	}
-    	if(maxDomain < asylum[key][year]["Total"]){
-    		maxDomain = asylum[key][year]["Total"];
+    	if(maxDomain < data[key][year]["Total"]){
+    		maxDomain = data[key][year]["Total"];
     	}
     }
     color.domain([minDomain,maxDomain]);
-    
+
     console.log("minmax"+"::"+minDomain+"::"+maxDomain);
-    
+
     this.svg
         .selectAll(".country")
         .style("fill", function(d, i) {
-            if(asylum[d.properties.name]){         
-                return color(asylum[d.properties.name][year]['Total']);
+            if(data[d.properties.name]){
+                return color(data[d.properties.name][year]['Total']);
             }
             return "#DDE7EB";
         });
-    
+
     var legend = this.svg.selectAll('g.legend')
 		.data(color.range())
 		.enter()
@@ -141,14 +142,14 @@ Map.prototype.colorMap = function(year){
 	legend
 		.append('rect')
 		.attr("x",this.width - (this.width-30))
-		.attr("y", function(d, i) {		  
+		.attr("y", function(d, i) {
 		   return ((self.height-200)+(i * 20));
 		})
 	   .attr("width", 10)
 	   .attr("height", 10)
 	   .style("stroke", "black")
 	   .style("stroke-width", 1)
-	   .style("fill", function(d){return d;}); 
+	   .style("fill", function(d){return d;});
 		   //the data objects are the fill colors
 
 	legend
@@ -169,47 +170,6 @@ Map.prototype.colorMap = function(year){
 	//downloading json
     /*var url = 'data:text/json;charset=utf8,' + encodeURIComponent(present);
 	window.open(url, '_blank');
-	window.focus();*/	
-	
-}
+	window.focus();*/
 
-queue().defer(d3.json, "data/world-topo-min.json")
-	.defer(d3.csv, "data/dutch.csv")
-    .await(ready);
-
-var map = new Map("#map");
-var asylum = {};
-
-function ready(error,world, asylumRequests){
-    var countries = topojson.feature(world, world.objects.countries).features;
-    map.topo = countries;
-
-    //load csv and build json
-    for (var i = 0; i < asylumRequests.length; i++) {
-        var obj = asylumRequests[i];
-        //console.log(obj);
-        if(asylum[obj["Country"]]== null){
-        	 tmp ={};
-        	 //TODO : remove later. done to simplify json building
-        	 tmp['Citizenship'] = obj['Citizenship'];
-        	 tmp[2007] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
-			 tmp[2008] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
-			 tmp[2009] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
-			 tmp[2010] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
-			 tmp[2011] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
-			 tmp[2012] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
-			 tmp[2013] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
-			 tmp[2014] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
-        	 tmp[obj['Periods']]['Total'] = +obj['number'];
-        	 tmp[obj['Periods']][obj['Sex']][obj['Age']] =  +obj['number'];
-        	 //console.log(JSON.stringify(tmp));
-        	 asylum[obj["Country"]]  = tmp;
-        }
-       else{
-         tmp[obj['Periods']]['Total'] += +obj['number'];
-         tmp[obj['Periods']][obj['Sex']][obj['Age']] +=  +obj['number'];
-       }
-    }
-
-    map.draw( asylum );
 }
