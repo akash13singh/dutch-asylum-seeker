@@ -2,7 +2,10 @@ var d3pieConfig = {
 	"header": {
 		"title": {
 			"text": "Genders"
-		}
+		},
+        "subtitle": {
+			"text": "A full pie chart"
+        }
 	},
 	"size": {
 		"canvasHeight": 150,
