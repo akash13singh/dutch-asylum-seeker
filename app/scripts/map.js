@@ -37,10 +37,9 @@ function Map( id ){
     this.topo = null;
 }
 
-Map.prototype.draw = function(asylum){
-    var self     = this;
-    self.data = asylum;
 
+Map.prototype.draw = function(){
+    var self     = this;
     var country = this.svg
         .selectAll(".country").data(this.topo);
 
@@ -65,37 +64,44 @@ Map.prototype.draw = function(asylum){
         .attr("title", function(d,i) { return d.properties.name; });
 
     //fill color
-    this.colorMap(2013);
+    this.colorMap(2008);        
 
-    //offsets for tooltips
+	country.on("click", this.onClick );
+
+}
+
+Map.prototype.addToolTip = function(year){
+	var self = this;
+	country = this.svg
+				  .selectAll(".country");
+	 //offsets for tooltips
     var boundary = this.element.node().getBoundingClientRect();
     var offsetL = boundary.left+20;
-    var offsetT = boundary.top+10;
-
+    var offsetT = boundary.top+10;   			  
+        			  
     //tooltips
     country.on("mousemove", function(d,i) {
         var mouse = d3.mouse(self.svg.node()).map( function(d) { return parseInt(d); } );
 
         self.tooltip.classed("hidden", false)
              .attr("style", "left:"+(mouse[0]+offsetL)+"px;top:"+(mouse[1]+offsetT)+"px")
-             .html(d.properties.name);
+             .html(d.properties.name+"::"+year);
 
       })
       .on("mouseout",  function(d,i) {
         self.tooltip.classed("hidden", true);
-      });
-
-	country.on("click", this.onClick );
-
+      });	  			 
+   
 }
 
 Map.prototype.colorMap = function(year){
     var self     = this;
     var present = [];
-    var data   = self.data;
+    
     //Define default colorbrewer scheme
-	var colorSchemeSelect = "Greens";
-	var colorScheme = colorbrewer[colorSchemeSelect];
+	var colorSchemeSelect = "Oranges";
+	var colorScheme = colorbrewer[colorSchemeSelect]; 
+
 
 	//define default number of quantiles
 	var quantiles = 5;
@@ -107,14 +113,14 @@ Map.prototype.colorMap = function(year){
     var colorDomain =  [];
     var minDomain = 999999;
     var maxDomain = 0;
-    for (var key in data){
+    for (var key in asylum){
     	present.push(key);
-    	colorDomain.push[data[key][year]["Total"]];
-    	if(minDomain > data[key][year]["Total"]){
-    		minDomain = data[key][year]["Total"];
+    	colorDomain.push[asylum[key][year]["Total"]];
+    	if(minDomain > asylum[key][year]["Total"]){
+    		minDomain = asylum[key][year]["Total"];
     	}
-    	if(maxDomain < data[key][year]["Total"]){
-    		maxDomain = data[key][year]["Total"];
+    	if(maxDomain < asylum[key][year]["Total"]){
+    		maxDomain = asylum[key][year]["Total"];
     	}
     }
     color.domain([minDomain,maxDomain]);
@@ -124,8 +130,8 @@ Map.prototype.colorMap = function(year){
     this.svg
         .selectAll(".country")
         .style("fill", function(d, i) {
-            if(data[d.properties.name]){
-                return color(data[d.properties.name][year]['Total']);
+            if(asylum[d.properties.name]){
+                return color(asylum[d.properties.name][year]['Total']);
             }
             return "#DDE7EB";
         });
@@ -162,6 +168,7 @@ Map.prototype.colorMap = function(year){
 		    return format(+extent[0]) + " - " + format(+extent[1]);
 		});
 
+    this.addToolTip(year);
 	//console.log(present);
 	//downloading json
     /*var url = 'data:text/json;charset=utf8,' + encodeURIComponent(present);

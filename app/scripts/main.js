@@ -19,9 +19,11 @@ function ready(error,world, asylumRequests ){
 
     map.onClick = function( d, i ){
         var countryName = d.properties.name;
+         overLayTimeLine = new TimelineGraph("#countryOverlay");
         if( asylum[countryName] ) {
             timeline.addData( asylum[countryName].toYearlyData() );
         }
+        toggleVisibility("countryOverlay")
     }
 
     timeline.onClick = function( d, i ){
@@ -74,7 +76,7 @@ function ready(error,world, asylumRequests ){
     });
 
 
-    map.draw( asylum );
+    map.draw();
     timeline.addData( asylum[config.country].toYearlyData() );
 
     yearSelector.onChange = function(d){
