@@ -7,6 +7,7 @@ $padding: 5px;
 $font-size: 1em;
 
 $font-family: 'Oswald', sans-serif;
+$left-width: 25;
 
 html, body {
   background: white;
@@ -18,11 +19,10 @@ html, body {
   font-size: $font-size;
 }
 
+
 .column {
     float: left;
     height: 100%;
-
-    $left-width: 25;:
 
     &.left {
         width: $left-width + %;
@@ -50,6 +50,6 @@ html, body {
   left: $left-width + 5 + %;
   width: ( 90 - $left-width ) + %;
   height: 90%;
-  z-index: 10;
+  z-index: 5000;
   background-color: #ffffff; /*dim the background*/
 }
