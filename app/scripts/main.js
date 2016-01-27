@@ -30,12 +30,11 @@ function ready(error,world, asylumRequests ){
        	    //overLayTimeLine = new TimelineGraph("#country-overlay");
             overlay.show(countryName);
         }
-        
     }
 
     timeline.onClick = function( d, i ){
         map.colorMap( d );
-        yearSelector.setYear(d);
+        leftPanel.setYear(d);
     }
 
     var countries = topojson.feature(world, world.objects.countries).features;
@@ -167,6 +166,7 @@ LeftPanel.prototype.setYear = function(d){
     leftPanel.select("#total-number")
         .html( d3.format(",")( totalYearlyData[d].number ) );
 
+    yearSelector.setYear(d);
 
     leftPanel.selectAll(".country")
         .remove("*");
