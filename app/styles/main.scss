@@ -46,10 +46,9 @@ html, body {
 
 #country-overlay{
   position: absolute;
-  top: 30px;
-  left: $left-width + 5 + %;
-  width: ( 90 - $left-width ) + %;
-  height: 90%;
-  z-index: 5000;
+  top: 0px;
+  width: ( 100 - $left-width ) + %;
+  height: 100%;
+  z-index: 3000;
   background-color: #ffffff; /*dim the background*/
 }
