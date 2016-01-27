@@ -170,9 +170,7 @@ function TimelineGraph( id, options ){
                 .node()
                 .focus();
 
-            var countryList = [
-                'China', 'Japan'
-            ];
+            var countryList = Object.keys(asylum).sort();
             var data = _.filter( countryList, function(c){
                 return !_.find( self.datasets, function(obj){
                     return obj[0].country == c;
