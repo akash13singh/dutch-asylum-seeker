@@ -130,12 +130,29 @@ function TimelineGraph( id, options ){
     this.graphs[1].element.attr("opacity", 0 );
 
 
-    var countryPanelHeight = 300;
-    self.element.select(".country-panel")
-        .style("height", countryPanelHeight + "px" );
 
 
     var countryPanel = self.element.select(".country-panel");
+        countryPanel.select("input")
+            .on("keypress", function(){
+                var query = d3.select(this)
+                    .property("value")
+                    .toLowerCase();
+
+                countryPanel.selectAll(".country")
+                  .classed("hide", function(d,i){
+                      if( query.length < 1 ){
+                          return false;
+                      }
+                      return !d.toLowerCase().match(query);
+                  });
+            });
+    var countryPanelHeight = 300;
+    countryPanel
+        .style("height", countryPanelHeight + "px" );
+
+    countryPanel.select(".country-wrapper")
+        .style("height", countryPanelHeight - 30 + "px");
 
     this.element.select(".more-country-button")
         .on("click",function(e){
@@ -145,10 +162,34 @@ function TimelineGraph( id, options ){
                 console.log(r);
 
 
-            countryPanel.selectAll("*")
+            countryPanel.selectAll(".country")
                 .remove();
 
-            var countryList = ['China', 'Japan'];
+            countryPanel.select("input")
+                .property("value", "" )
+                .node()
+                .focus();
+
+            var countryList = [
+                'China', 'Japan',
+                'China', 'Japan',
+                'China', 'Japan',
+                'China', 'Japan',
+                'China', 'Japan',
+                'China', 'Japan',
+                'China', 'Japan',
+                'China', 'Japan',
+                'China', 'Japan',
+                'China', 'Japan',
+                'China', 'Japan',
+                'China', 'Japan',
+                'China', 'Japan',
+                'China', 'Japan',
+                'China', 'Japan',
+                'China', 'Japan',
+                'China', 'Japan',
+                'China', 'Japan'
+            ];
             var data = _.filter( countryList, function(c){
                 return !_.find( self.datasets, function(obj){
                     return obj[0].country == c;
@@ -156,6 +197,7 @@ function TimelineGraph( id, options ){
             });
 
             countryPanel
+                .select(".country-wrapper")
                 .selectAll("div")
                 .data(data)
                 .enter()
@@ -168,8 +210,9 @@ function TimelineGraph( id, options ){
                 });
 
 
+            var paddingAndBorder = 24;
             self.element.select(".country-panel")
-                .style("top", (r.top-countryPanelHeight-10)+"px" );
+                .style("top", (r.top-countryPanelHeight- paddingAndBorder )+"px" );
             toggleCountryList();
 
             function toggleCountryList(){
@@ -179,7 +222,6 @@ function TimelineGraph( id, options ){
 
                 d3.select(".more-country-button")
                     .classed("clicked", function(d,i){
-                        console.log('xxx');
                         return !d3.select(".more-country-button").classed("clicked");
                     });
             }
@@ -202,7 +244,6 @@ TimelineGraph.prototype.addData = function(data){
         } else {
             var dominator = data[i-1].number;
             if( dominator == 0 ) {
-                console.log(data[i-1]);
                 dominator = 1;
             }
             d.relative = ( d.number - data[i-1].number ) / dominator;

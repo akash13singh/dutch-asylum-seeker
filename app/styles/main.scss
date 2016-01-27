@@ -1,10 +1,11 @@
 // bower:scss
 // endbower
 
-$font-family: 'Oswald', sans-serif;
+@import "config";
 
 $padding: 5px;
 $font-size: 1em;
+$font-family: 'Oswald', sans-serif;
 
 html, body {
   background: #3D2802;

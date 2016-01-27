@@ -1,3 +1,5 @@
+@import "config";
+
 body {
   font: 10px sans-serif;
 }
@@ -63,16 +65,44 @@ body {
     }
 
     .country-panel {
+        $width: 200;
+        $padding: 5;
         display: none;
         position: absolute;
-        background: yellow;
+        border: 2px solid $basecolor;
+        background: white;
         right: 0px;
-        width: 200px;
+        width: $width + px;
         height: 200px;
+        padding: $padding + px;
+
+        .country-wrapper {
+            background: white;
+            overflow: scroll;
+            border-bottom: 1px solid $basecolor;
+        }
 
         &.showed {
             display: block;
         }
+
+        .country {
+            padding: 3px 0px;
+            font-weight: bold;
+            &.hide {
+                display: none;
+            }
+        }
+
+        input {
+            position: absolute;
+            bottom: $padding + px;
+            width: $width - 2*$padding + px;
+            padding: $padding + px;
+            margin: 0px;
+            border: 0px;
+        }
+
     }
 
 }
