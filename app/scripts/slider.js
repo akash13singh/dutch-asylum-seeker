@@ -3,8 +3,6 @@ function TimelineGraph( id, options ){
     this.element = d3.select(id);
     this.datasets = [];
 
-    var FOCUS_YEAR = 2010;
-
     var MIN_YEAR       = 2007;
     var MAX_YEAR       = 2015;
     var YEAR_RANGE     = [MIN_YEAR, MAX_YEAR -1 ];
@@ -12,9 +10,9 @@ function TimelineGraph( id, options ){
 
     var boxWidth = document.getElementById(id.replace("#","")).offsetWidth;
     var margin   = {top: 20, right: 50, bottom: 30, left: 50};
-    var width    = boxWidth - margin.left - margin.right;
-    var height   = width / 6;
-    height = height - margin.top - margin.bottom + X_AXIS_PADDING;
+    var width    = boxWidth - margin.left - margin.right - 10;
+    var rawHeight   = width / 6;
+    height = rawHeight - margin.top - margin.bottom + X_AXIS_PADDING;
 
     this.height = height;
     this.width  = width;
@@ -62,13 +60,14 @@ function TimelineGraph( id, options ){
       .attr("class", "year-selector" )
       .style("stroke", "black");
 
-    var currentX = xScale(FOCUS_YEAR);
+    var currentX = xScale(config.year);
     var currentYearLine = this.svg.append("line")
         .attr("class", "focus-line current" )
         .attr("x1", currentX )
         .attr("x2", currentX )
         .attr("y1", 0 )
         .attr("y2", height + X_AXIS_PADDING/4 )
+    this.currentYearLine = currentYearLine;
 
     timeSelector.append("g")
         .selectAll('circle')
@@ -76,7 +75,7 @@ function TimelineGraph( id, options ){
         .enter().append('circle')
         .attr("class", "year-bullet")
         .classed("selected", function(d){
-            return d== FOCUS_YEAR;
+            return d == config.year;
         })
         .attr("cx", function(d) {
             return xScale(d);
@@ -84,17 +83,8 @@ function TimelineGraph( id, options ){
         .attr("cy", yTimeSelector )
         .attr("r", 8 )
         .on("click", function(d,i){
-            var xPos = xScale(d);
-            currentYearLine.attr("x1", xPos )
-                .attr("x2", xPos )
-                .attr("y1", 0 );
 
-
-            d3.select("#chart")
-                .selectAll(".year-bullet")
-                .classed("selected",function(e,j){
-                    return i == j;
-                });
+            self.setPointerToYear(d);
 
             /* Call event outside */
             self.onClick(d,i);
@@ -139,6 +129,86 @@ function TimelineGraph( id, options ){
 
     this.graphs[1].element.attr("opacity", 0 );
 
+
+
+
+    var countryPanel = self.element.select(".country-panel");
+        countryPanel.select("input")
+            .on("keydown", function(){
+                var query = d3.select(this)
+                    .property("value")
+                    .toLowerCase();
+
+                countryPanel.selectAll(".country")
+                  .classed("hide", function(d,i){
+                      if( query.length < 1 ){
+                          return false;
+                      }
+                      return !d.toLowerCase().match(query);
+                  });
+            });
+    var countryPanelHeight = 300;
+    countryPanel
+        .style("height", countryPanelHeight + "px" );
+
+    countryPanel.select(".country-wrapper")
+        .style("height", countryPanelHeight - 30 + "px");
+
+    this.element.select(".more-country-button")
+        .on("click",function(e){
+            var r    = d3.select(".more-country-button")
+                .node()
+                .getBoundingClientRect();
+                console.log(r);
+
+
+            countryPanel.selectAll(".country")
+                .remove();
+
+            countryPanel.select("input")
+                .property("value", "" )
+                .node()
+                .focus();
+
+            var countryList = Object.keys(asylum).sort();
+            var data = _.filter( countryList, function(c){
+                return !_.find( self.datasets, function(obj){
+                    return obj[0].country == c;
+                });
+            });
+
+            countryPanel
+                .select(".country-wrapper")
+                .selectAll("div")
+                .data(data)
+                .enter()
+                .append("div")
+                .attr("class","country")
+                .html(function(d){ return ">>> " + d })
+                .on("click", function(d){
+                    self.addData( asylum[d].toYearlyData() );
+                    toggleCountryList();
+                });
+
+
+            var paddingAndBorder = 24;
+            self.element.select(".country-panel")
+                .style("top", (r.top-countryPanelHeight- paddingAndBorder )+"px" );
+            toggleCountryList();
+
+            function toggleCountryList(){
+                countryPanel.classed("showed", function(d,i){
+                    return !countryPanel.classed("showed");
+                });
+
+                d3.select(".more-country-button")
+                    .classed("clicked", function(d,i){
+                        return !d3.select(".more-country-button").classed("clicked");
+                    });
+            }
+        });
+
+
 }
 
 TimelineGraph.prototype.addData = function(data){
@@ -155,7 +225,6 @@ TimelineGraph.prototype.addData = function(data){
         } else {
             var dominator = data[i-1].number;
             if( dominator == 0 ) {
-                console.log(data[i-1]);
                 dominator = 1;
             }
             d.relative = ( d.number - data[i-1].number ) / dominator;
@@ -201,6 +270,21 @@ TimelineGraph.prototype.render = function(){
     _.each( this.graphs, function(g){
         g.render(self.datasets);
     });
+}
+
+TimelineGraph.prototype.setPointerToYear = function(year){
+    var xPos   = this.xScale(year);
+
+    this.currentYearLine.attr("x1", xPos )
+        .attr("x2", xPos )
+        .attr("y1", 0 );
+
+
+    d3.select("#chart")
+        .selectAll(".year-bullet")
+        .classed("selected",function(d){
+            return year == d;
+        });
 }
 
 function LineGraph( parent, id, valueKey ){

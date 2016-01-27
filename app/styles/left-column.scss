@@ -1,0 +1,47 @@
+@import "config";
+
+.left.column {
+    // Dutch Brand Color
+    $color: #FFFFFF;
+    background: $basecolor;
+    color: $color;
+
+    .wrapper {
+        padding: 10px;
+    }
+    .pie-chart {
+        display: inline-block;
+        width: 45%;
+        svg text {
+            fill: $color !important;
+        }
+
+        svg g:nth-child(n+2) path {
+            stroke: $basecolor !important;
+            // stroke-width: 0px !important;
+        }
+
+        svg .p0_pieChart g {
+            .path:nth-child(1){
+                fill: "#39588C" !important;
+            }
+            .path:nth-child(2){
+				fill: "#5773A3" !important;
+            }
+        }
+    }
+
+    table {
+        width: 100%;
+        padding: 0px 20px;
+        tr:nth-child(1){
+            font-weight: bold;
+        }
+
+        tr:nth-child(n+2) {
+            td:nth-child(3){
+                text-align: right;
+            }
+        }
+    }
+}

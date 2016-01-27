@@ -1,11 +1,11 @@
-var config = {
-    country : "Turkey",
-    year: "2008"
-};
-
 var asylum = {};
 var map;
 var timeline;
+var yearSelector;
+var genderPie;
+var agePie;
+
+var totalYearlyData = {};
 
 queue().defer(d3.json, "./data/world-topo-min.json")
     .defer(d3.csv, "./data/dutch.csv")
@@ -20,6 +20,7 @@ function ready(error,world, asylumRequests ){
     map = new Map("#map");
     overlay = new Overlay("country-overlay");
     timeline = new TimelineGraph("#timeline");
+    yearSelector = new YearSelector("#year-selector");
 
     map.onClick = function( d, i ){
         var countryName = d.properties.name;
@@ -32,6 +33,7 @@ function ready(error,world, asylumRequests ){
 
     timeline.onClick = function( d, i ){
         map.colorMap( d );
+        yearSelector.setYear(d);
     }
 
     var countries = topojson.feature(world, world.objects.countries).features;
@@ -62,8 +64,42 @@ function ready(error,world, asylumRequests ){
          tmp[obj['Periods']]['Total'] += +obj['number'];
          tmp[obj['Periods']][obj['Sex']][obj['Age']] +=  +obj['number'];
        }
+
+       if( !totalYearlyData[obj['Periods']] ){
+           var d = {
+               number : parseInt(obj['number'])
+           };
+
+           _.merge( d, CategoryKey.defaultValue() );
+           d[CategoryKey['gender'][obj['Sex']]] = d.number;
+           d[CategoryKey['age'][obj['Age']]]    = d.number;
+
+           totalYearlyData[obj['Periods']]      = d;
+
+       }else {
+            var data = totalYearlyData[obj['Periods']];
+            var number              = parseInt(obj['number']);
+            data['number']         += number;
+            data[CategoryKey['gender'][obj['Sex']]]       += number;
+            data[CategoryKey['age'][obj['Age']]] += number;
+       }
     }
 
+
+    _.forEach( totalYearlyData, function(obj){
+       obj.data = function(cat){
+           var keys = Object.keys( CategoryKey[cat] );
+           var res = [];
+           _.forEach( keys, function(k){
+               var label = CategoryKey[cat][k];
+               res.push( {
+                   label: label,
+                   value: obj[label]
+               } );
+           });
+           return res;
+       }
+    });
 
     _.forEach( asylum, function( country, countryName ){
         country.toYearlyData = function(){
@@ -78,7 +114,31 @@ function ready(error,world, asylumRequests ){
         }
     });
 
+    genderPie = new PieChart("#gender-chart", "Gender",
+        totalYearlyData[config.year].data('gender')
+    );
+
+    agePie    = new PieChart("#age-group-chart", "Age",
+        totalYearlyData[config.year].data('age')
+    );
 
     map.draw();
     timeline.addData( asylum[config.country].toYearlyData() );
+    d3.select("#total-number").
+        html( d3.format(",")( totalYearlyData[config.year].number ) );
+
+    yearSelector.onChange = function(d){
+        timeline.setPointerToYear(d);
+        map.colorMap(d);
+
+        genderPie.updateData( totalYearlyData[d].data('gender'));
+        agePie.updateData( totalYearlyData[d].data('age'));
+
+        d3.select("#total-number").
+            html( d3.format(",")( totalYearlyData[d].number ) );
+
+
+    }
+
+
 }

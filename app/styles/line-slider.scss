@@ -1,3 +1,5 @@
+@import "config";
+
 body {
   font: 10px sans-serif;
 }
@@ -20,10 +22,18 @@ body {
       stroke-width: 1.5px;
     }
 
+    .right-block {
+        float: right;
+    }
+
+    .wrapper {
+        padding: 10px;
+    }
+
     ul {
         display: inline-block;
-        float: right;
         padding-left: 0px;
+        margin: 0px 10px 0px 0px;
         li {
             display: inline-block;
             line-height: 20px;
@@ -31,10 +41,68 @@ body {
                 vertical-align: middle;
                 font-size: 20px;
             }
+            .close {
+                opacity: 0;
+            }
+
+            &:hover {
+                .close { opacity: 1; }
+            }
         }
     }
-    .legend { 
+
+    .more-country-button {
+        font-size: 15px;
+        cursor: pointer;
+        &.clicked {
+            i {
+                transform: rotate(45deg);
+            }
+        }
+    }
+    .legend {
         padding: 0px 3px;
+    }
+
+    .country-panel {
+        $width: 200;
+        $padding: 5;
+        display: none;
+        position: absolute;
+        border: 2px solid $basecolor;
+        background: white;
+        right: 0px;
+        width: $width + px;
+        height: 200px;
+        padding: $padding + px;
+
+        .country-wrapper {
+            background: white;
+            overflow: scroll;
+            border-bottom: 1px solid $basecolor;
+        }
+
+        &.showed {
+            display: block;
+        }
+
+        .country {
+            padding: 3px 0px;
+            font-weight: bold;
+            &.hide {
+                display: none;
+            }
+        }
+
+        input {
+            position: absolute;
+            bottom: $padding + px;
+            width: $width - 2*$padding + px;
+            padding: $padding + px;
+            margin: 0px;
+            border: 0px;
+        }
+
     }
 
 }

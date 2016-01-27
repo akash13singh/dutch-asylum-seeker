@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="styles/overlay.css">
     <link rel="stylesheet" href="styles/map.css">
     <link rel="stylesheet" href="styles/line-slider.css">
+    <link rel="stylesheet" href="styles/left-column.css">
     <!-- endbuild -->
 
     <!-- External Dependencies -->
@@ -36,17 +37,61 @@
     <![endif]-->
     <!-- <div id="top-box"> -->
     <!-- </div> -->
-    <div class="left column"></div>
+    <div class="left column">
+        <div class="wrapper">
+            <select id="year-selector">
+            </select>
+            There were <span id="total-number"></span> submissions.
+            <div>
+                <div class="pie-chart" id="gender-chart"></div>
+                <div class="pie-chart" id="age-group-chart"></div>
+            </div>
+            <h3>Top 3 Countries</h3>
+            <table>
+                <tr>
+                    <td>Rank</td>
+                    <td>Country</td>
+                    <td>Number</td>
+                </tr>
+                <tr>
+                    <td>1st</td>
+                    <td>China</td>
+                    <td>3,000</td>
+                </tr>
+                <tr>
+                    <td>1st</td>
+                    <td>China</td>
+                    <td>3,000</td>
+                </tr>
+                <tr>
+                    <td>1st</td>
+                    <td>China</td>
+                    <td>3,000</td>
+                </tr>
+            </table>
+        </div>
+    </div>
     <div class="right column">
         <div id="map"></div>
         <div id="timeline">
-            <select>
-                <option value="0">Number of Submissions</option>
-                <option value="1">Relative Change</option>
-            </select>
-            <ul>
-            </ul>
-            <div id="chart">
+            <div class="wrapper">
+                <select>
+                    <option value="0">Number of Submissions</option>
+                    <option value="1">Relative Change</option>
+                </select>
+                <div class="right-block">
+                    <ul></ul>
+                    <span class="more-country-button">
+                        <i class="fa fa-plus-circle"></i>
+                    </span>
+                </div>
+                <div id="chart">
+                </div>
+            </div>
+            <div class="country-panel">
+                <div class="country-wrapper">
+                </div>
+                <input type="text" name="country-query" placeholder="Search for a country"
             </div>
         </div>
     </div>
@@ -75,10 +120,12 @@
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
+    <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/d3/d3.js"></script>
     <script src="/bower_components/topojson/topojson.js"></script>
     <script src="/bower_components/colorbrewer/colorbrewer.js"></script>
     <script src="/bower_components/lodash/lodash.js"></script>
+    <script src="/bower_components/d3pie/d3pie/d3pie.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -88,9 +135,12 @@
 
     <!-- build:js scripts/main.js -->
     <script src="scripts/vendor/queue.v1.min.js"></script>
+    <script src="scripts/config.js"></script>
     <script src="scripts/utils.js"></script>
     <script src="scripts/map.js"></script>
     <script src="scripts/slider.js"></script>
+    <script src="scripts/pie-chart.js"></script>
+    <script src="scripts/year-selector.js"></script>
     <script src="scripts/main.js"></script>
     <script src="scripts/nv.d3.js"></script>
     <script src="scripts/overlay.js"></script>
