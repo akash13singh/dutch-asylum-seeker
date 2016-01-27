@@ -27,8 +27,8 @@ function TimelineGraph( id, options ){
         .select("select")
         .on("change", function(){
             var i = parseInt(self.element.select("select").node().value);
-            self.graphs[i].element.attr("opacity", 1 );
-            self.graphs[(i+1)%2].element.attr("opacity", 0 );
+            self.graphs[(i+1)%2].element.style("display","none");
+            self.graphs[i].element.style("display", "block");
         });
 
 
@@ -126,10 +126,6 @@ function TimelineGraph( id, options ){
         var l = new LineGraph( self, id, valuesKey[i] );
         return l;
     });
-
-    this.graphs[1].element.attr("opacity", 0 );
-
-
 
 
     var countryPanel = self.element.select(".country-panel");
@@ -315,6 +311,7 @@ LineGraph.prototype.render = function( datasets ) {
     }
 
     var yDomain = [0,highestValue[valueKey]];
+    var yLabel = "Submissions";
     if( valueKey == "relative" ){
         var lowestValue = _.minBy( flattenedDataset, valueKey );
         var candidates = _.map( [ highestValue[valueKey], lowestValue[valueKey] ],
@@ -324,13 +321,14 @@ LineGraph.prototype.render = function( datasets ) {
 
         var max = _.max(candidates);
         yDomain = [ -max, max ];
+        yLabel  = "";
     }
 
     yScale.domain( yDomain );
 
     var format = d3.format('.2s');
     if( valueKey == "relative" ){
-        format = d3.format("1.1f");
+        format = d3.format("%");
     }
     var yAxis = d3.svg.axis()
         .scale(yScale)
@@ -346,11 +344,13 @@ LineGraph.prototype.render = function( datasets ) {
 
     this.element.append("g")
       .attr("class", "y axis")
-      .attr("transform", "translate(" + -20 + ",0)")
+      .attr("transform", "translate(" + -15 + ",0)")
       .call(yAxis)
       .append("text")
+      .text(yLabel)
       .attr("transform", "rotate(-90)")
       .attr("y", 6)
+      .attr("x", -6*yLabel.length )
       .attr("dy", ".71em");
 
     this.element.selectAll(".country")
@@ -387,13 +387,17 @@ LineGraph.prototype.render = function( datasets ) {
         .style("fill", function(d){
             return ColorProvider.colorForKey(d.country);
         }).on("mouseover", function(d,i) {
+            console.log(d);
+
             var data = _.filter( flattenedDataset, function( i ){
                 return i.year == d.year;
             });
 
+            console.log(data);
+
             tip.show(data);
 
-            var max = _.max( data, function(d){ return d[valueKey] } );
+            var max = _.maxBy( data, valueKey );
 
             var positionX = xScale(d.year);
             var positionY = yScale(max[valueKey]);
