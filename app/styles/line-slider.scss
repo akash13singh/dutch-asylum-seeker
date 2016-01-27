@@ -6,11 +6,16 @@ body {
 
 
 #timeline {
-    .axis path,
+    .axis path {
+      fill: none;
+      stroke: #000;
+      stroke-width: 2px;
+    }
     .axis line {
       fill: none;
       stroke: #000;
       shape-rendering: crispEdges;
+      opacity: 0.4;
     }
 
     .x.axis path {

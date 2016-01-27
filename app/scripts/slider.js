@@ -3,8 +3,6 @@ function TimelineGraph( id, options ){
     this.element = d3.select(id);
     this.datasets = [];
 
-    var MIN_YEAR       = 2007;
-    var MAX_YEAR       = 2015;
     var YEAR_RANGE     = [MIN_YEAR, MAX_YEAR -1 ];
     var X_AXIS_PADDING = 30;
 
@@ -324,16 +322,19 @@ LineGraph.prototype.render = function( datasets ) {
         yLabel  = "";
     }
 
-    yScale.domain( yDomain );
+    yScale.domain( yDomain ).nice();
 
-    var format = d3.format('.2s');
+    var format = d3.format('2s');
     if( valueKey == "relative" ){
         format = d3.format("%");
     }
+    var shiftY = 25;
     var yAxis = d3.svg.axis()
         .scale(yScale)
         .ticks(5)
         .tickFormat(format)
+        .innerTickSize( -xScale(MAX_YEAR-1) - shiftY )
+        .outerTickSize(0)
         .orient("left");
 
     var line = d3.svg.line()
@@ -344,7 +345,7 @@ LineGraph.prototype.render = function( datasets ) {
 
     this.element.append("g")
       .attr("class", "y axis")
-      .attr("transform", "translate(" + -15 + ",0)")
+      .attr("transform", "translate(" + -shiftY + ",0)")
       .call(yAxis)
       .append("text")
       .text(yLabel)
@@ -365,12 +366,13 @@ LineGraph.prototype.render = function( datasets ) {
 
     if( valueKey == "relative" ){
         this.element.append("line")
-            .attr("x1", 0 )
+            .attr("x1", -shiftY )
             .attr("x2", this.parent.width )
             .attr("y1", yScale(0) )
             .attr("y2", yScale(0) )
             .attr("stroke", "black" )
-            .attr("opacity", 0.2 );
+            .attr("stroke-width", "2px")
+            .attr("opacity", 1 );
     }
 
     this.element.append("g")
