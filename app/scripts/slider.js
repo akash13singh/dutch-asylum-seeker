@@ -10,9 +10,9 @@ function TimelineGraph( id, options ){
 
     var boxWidth = document.getElementById(id.replace("#","")).offsetWidth;
     var margin   = {top: 20, right: 50, bottom: 30, left: 50};
-    var width    = boxWidth - margin.left - margin.right;
-    var height   = width / 6;
-    height = height - margin.top - margin.bottom + X_AXIS_PADDING;
+    var width    = boxWidth - margin.left - margin.right - 10;
+    var rawHeight   = width / 6;
+    height = rawHeight - margin.top - margin.bottom + X_AXIS_PADDING;
 
     this.height = height;
     this.width  = width;
@@ -128,6 +128,63 @@ function TimelineGraph( id, options ){
     });
 
     this.graphs[1].element.attr("opacity", 0 );
+
+
+    var countryPanelHeight = 300;
+    self.element.select(".country-panel")
+        .style("height", countryPanelHeight + "px" );
+
+
+    var countryPanel = self.element.select(".country-panel");
+
+    this.element.select(".more-country-button")
+        .on("click",function(e){
+            var r    = d3.select(".more-country-button")
+                .node()
+                .getBoundingClientRect();
+                console.log(r);
+
+
+            countryPanel.selectAll("*")
+                .remove();
+
+            var countryList = ['China', 'Japan'];
+            var data = _.filter( countryList, function(c){
+                return !_.find( self.datasets, function(obj){
+                    return obj[0].country == c;
+                });
+            });
+
+            countryPanel
+                .selectAll("div")
+                .data(data)
+                .enter()
+                .append("div")
+                .attr("class","country")
+                .html(function(d){ return ">>> " + d })
+                .on("click", function(d){
+                    self.addData( asylum[d].toYearlyData() );
+                    toggleCountryList();
+                });
+
+
+            self.element.select(".country-panel")
+                .style("top", (r.top-countryPanelHeight-10)+"px" );
+            toggleCountryList();
+
+            function toggleCountryList(){
+                countryPanel.classed("showed", function(d,i){
+                    return !countryPanel.classed("showed");
+                });
+
+                d3.select(".more-country-button")
+                    .classed("clicked", function(d,i){
+                        console.log('xxx');
+                        return !d3.select(".more-country-button").classed("clicked");
+                    });
+            }
+        });
+
 
 }
 
