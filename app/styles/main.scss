@@ -42,3 +42,13 @@ html, body {
         }
     }
 }
+
+#countryOverlay{
+  position: absolute;
+  top: 30px;
+  left: 500px;
+  width: 60%;
+  height: 60%;
+  z-index: 10;
+  background-color: #2E4172; /*dim the background*/
+}

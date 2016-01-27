@@ -64,28 +64,34 @@ Map.prototype.draw = function(){
         .attr("title", function(d,i) { return d.properties.name; });
 
     //fill color
-    this.colorMap(2013);
+    this.colorMap(2008);        
 
-    //offsets for tooltips
+	country.on("click", this.onClick );
+
+}
+
+Map.prototype.addToolTip = function(year){
+	var self = this;
+	country = this.svg
+				  .selectAll(".country");
+	 //offsets for tooltips
     var boundary = this.element.node().getBoundingClientRect();
     var offsetL = boundary.left+20;
-    var offsetT = boundary.top+10;
-
+    var offsetT = boundary.top+10;   			  
+        			  
     //tooltips
     country.on("mousemove", function(d,i) {
         var mouse = d3.mouse(self.svg.node()).map( function(d) { return parseInt(d); } );
 
         self.tooltip.classed("hidden", false)
              .attr("style", "left:"+(mouse[0]+offsetL)+"px;top:"+(mouse[1]+offsetT)+"px")
-             .html(d.properties.name);
+             .html(d.properties.name+"::"+year);
 
       })
       .on("mouseout",  function(d,i) {
         self.tooltip.classed("hidden", true);
-      });
-
-	country.on("click", this.onClick );
-
+      });	  			 
+   
 }
 
 Map.prototype.colorMap = function(year){
@@ -162,6 +168,7 @@ Map.prototype.colorMap = function(year){
 		    return format(+extent[0]) + " - " + format(+extent[1]);
 		});
 
+    this.addToolTip(year);
 	//console.log(present);
 	//downloading json
     /*var url = 'data:text/json;charset=utf8,' + encodeURIComponent(present);
