@@ -1,0 +1,19 @@
+#close-overlay-button {
+	float:right;
+}
+
+#totalChart svg {
+  height: 250px;
+  width: 800px
+}
+
+#genderChart svg {
+  height: 250px;
+  width: 800px
+}
+
+
+#ageChart svg {
+  height: 250px;
+  width: 800px
+}

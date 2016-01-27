@@ -5,7 +5,7 @@ $font-family: 'Oswald', sans-serif;
 
 $padding: 5px;
 $font-size: 1em;
-
+$left-width: 17;
 html, body {
   background: #3D2802;
   font-family: $font-family;
@@ -20,7 +20,7 @@ html, body {
     float: left;
     height: 100%;
 
-    $left-width: 17;
+    
 
     &.left {
         width: $left-width + %;
@@ -43,12 +43,12 @@ html, body {
     }
 }
 
-#countryOverlay{
+#country-overlay{
   position: absolute;
   top: 30px;
-  left: 500px;
-  width: 60%;
-  height: 60%;
+  left: $left-width + 5 + %;
+  width: ( 90 - $left-width ) + %;
+  height: 90%;
   z-index: 10;
-  background-color: #2E4172; /*dim the background*/
+  background-color: #ffffff; /*dim the background*/
 }
