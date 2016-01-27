@@ -87,9 +87,9 @@ Map.prototype.addToolTip = function(year){
              .attr("style", "left:"+(mouse[0]+offsetL)+"px;top:"+(mouse[1]+offsetT)+"px")
              .html( function() {
              	if(asylum[d.properties.name]) 
-             		return d.properties.name+"::"+year+"::"+asylum[d.properties.name][year]['Total']
+             		return "<h4 class=\"title\">"+d.properties.name+"</h4><hr><p>"+year+"|"+asylum[d.properties.name][year]['Total']+"</p>";
              	else 
-             		return d.properties.name+"::"+year;
+             		return d.properties.name;
              	});
 
       })
