@@ -18,15 +18,16 @@ function ready(error,world, asylumRequests ){
     };
 
     map = new Map("#map");
+    overlay = new Overlay("country-overlay");
     timeline = new TimelineGraph("#timeline");
 
     map.onClick = function( d, i ){
         var countryName = d.properties.name;
-         overLayTimeLine = new TimelineGraph("#countryOverlay");
         if( asylum[countryName] ) {
-            timeline.addData( asylum[countryName].toYearlyData() );
+       	    //overLayTimeLine = new TimelineGraph("#country-overlay");
+            overlay.show(countryName);
         }
-        toggleVisibility("countryOverlay")
+        
     }
 
     timeline.onClick = function( d, i ){

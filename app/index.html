@@ -21,6 +21,8 @@
 
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/nv.d3.css">
+    <link rel="stylesheet" href="styles/overlay.css">
     <link rel="stylesheet" href="styles/map.css">
     <link rel="stylesheet" href="styles/line-slider.css">
     <!-- endbuild -->
@@ -48,7 +50,18 @@
             </div>
         </div>
     </div>
-	<div id="countryOverlay" class="hidden"										 ></div>
+	<div id="country-overlay" class="hidden">
+		<button class="close" id ="close-overlay-button">&times;</button>
+		<div id="totalChart">
+ 			 <svg></svg>
+		</div>
+		<div id="genderChart">
+ 			 <svg></svg>
+		</div>
+		<div id="ageChart">
+ 			 <svg></svg>
+		</div>
+	</div>
 		
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>
@@ -79,6 +92,8 @@
     <script src="scripts/map.js"></script>
     <script src="scripts/slider.js"></script>
     <script src="scripts/main.js"></script>
+    <script src="scripts/nv.d3.js"></script>
+    <script src="scripts/overlay.js"></script>
     <!-- endbuild -->
   </body>
 </html>

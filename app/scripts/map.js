@@ -65,7 +65,7 @@ Map.prototype.draw = function(){
 
     //fill color
     this.colorMap(2008);        
-
+	
 	country.on("click", this.onClick );
 
 }
@@ -85,7 +85,12 @@ Map.prototype.addToolTip = function(year){
 
         self.tooltip.classed("hidden", false)
              .attr("style", "left:"+(mouse[0]+offsetL)+"px;top:"+(mouse[1]+offsetT)+"px")
-             .html(d.properties.name+"::"+year);
+             .html( function() {
+             	if(asylum[d.properties.name]) 
+             		return d.properties.name+"::"+year+"::"+asylum[d.properties.name][year]['Total']
+             	else 
+             		return d.properties.name+"::"+year;
+             	});
 
       })
       .on("mouseout",  function(d,i) {
