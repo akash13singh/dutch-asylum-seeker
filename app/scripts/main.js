@@ -4,6 +4,7 @@ var timeline;
 var yearSelector;
 var genderPie;
 var agePie;
+var leftPanel;
 
 var totalYearlyData = {};
 
@@ -21,6 +22,7 @@ function ready(error,world, asylumRequests ){
     overlay = new Overlay("country-overlay");
     timeline = new TimelineGraph("#timeline");
     yearSelector = new YearSelector("#year-selector");
+    leftPanel = new LeftPanel();
 
     map.onClick = function( d, i ){
         var countryName = d.properties.name;
@@ -65,9 +67,11 @@ function ready(error,world, asylumRequests ){
          tmp[obj['Periods']][obj['Sex']][obj['Age']] +=  +obj['number'];
        }
 
+       var number =  parseInt(obj['number']);
        if( !totalYearlyData[obj['Periods']] ){
            var d = {
-               number : parseInt(obj['number'])
+               number : number,
+               countries: {}
            };
 
            _.merge( d, CategoryKey.defaultValue() );
@@ -78,15 +82,29 @@ function ready(error,world, asylumRequests ){
 
        }else {
             var data = totalYearlyData[obj['Periods']];
-            var number              = parseInt(obj['number']);
-            data['number']         += number;
-            data[CategoryKey['gender'][obj['Sex']]]       += number;
-            data[CategoryKey['age'][obj['Age']]] += number;
+            data['number']                          += number;
+            data[CategoryKey['gender'][obj['Sex']]] += number;
+            data[CategoryKey['age'][obj['Age']]]    += number;
        }
+
+       var countriesData = totalYearlyData[obj['Periods']]['countries'];
+       if( !countriesData[obj['Country']] ){
+           countriesData[obj['Country']] = number;
+       }else {
+           countriesData[obj['Country']] += number;
+       }
+
     }
 
 
     _.forEach( totalYearlyData, function(obj){
+        /* Prepare number for each counties */
+        var temp = _.map( obj.countries, function(d,k){
+            return { country: k, number: d }
+        })
+
+        obj.countries = _.sortBy( temp, 'number' ).reverse();
+
        obj.data = function(cat){
            var keys = Object.keys( CategoryKey[cat] );
            var res = [];
@@ -126,6 +144,7 @@ function ready(error,world, asylumRequests ){
     timeline.addData( asylum[config.country].toYearlyData() );
     d3.select("#total-number").
         html( d3.format(",")( totalYearlyData[config.year].number ) );
+    leftPanel.setYear(config.year);
 
     yearSelector.onChange = function(d){
         timeline.setPointerToYear(d);
@@ -133,12 +152,33 @@ function ready(error,world, asylumRequests ){
 
         genderPie.updateData( totalYearlyData[d].data('gender'));
         agePie.updateData( totalYearlyData[d].data('age'));
-
-        d3.select("#total-number").
-            html( d3.format(",")( totalYearlyData[d].number ) );
-
+        leftPanel.setYear(d);
 
     }
 
 
+}
+
+function LeftPanel(){
+}
+
+LeftPanel.prototype.setYear = function(d){
+    var leftPanel = d3.select(".left.column");
+    leftPanel.select("#total-number")
+        .html( d3.format(",")( totalYearlyData[d].number ) );
+
+
+    leftPanel.selectAll(".country")
+        .remove("*");
+
+    leftPanel.select("#rank").selectAll(".country")
+        .data( totalYearlyData[d].countries.slice(0,3)  )
+        .enter()
+        .append('tr')
+        .attr("class", "country")
+        .html(function(d,i){
+            return "<td>"+ (i+1) + "</td>"+
+            "<td>"+d.country+"</td>"+
+            "<td>"+d3.format(",")(d.number)+"</td";
+        });
 }
