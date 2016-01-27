@@ -9,7 +9,7 @@ function TimelineGraph( id, options ){
     var boxWidth = document.getElementById(id.replace("#","")).offsetWidth;
     var margin   = {top: 20, right: 50, bottom: 30, left: 50};
     var width    = boxWidth - margin.left - margin.right - 10;
-    var rawHeight   = width / 6;
+    var rawHeight   = width / 7;
     height = rawHeight - margin.top - margin.bottom + X_AXIS_PADDING;
 
     this.height = height;
@@ -178,14 +178,14 @@ function TimelineGraph( id, options ){
                 .enter()
                 .append("div")
                 .attr("class","country")
-                .html(function(d){ return ">>> " + d })
+                .html(function(d){ return  d })
                 .on("click", function(d){
                     self.addData( asylum[d].toYearlyData() );
                     toggleCountryList();
                 });
 
 
-            var paddingAndBorder = 24;
+            var paddingAndBorder = 25;
             self.element.select(".country-panel")
                 .style("top", (r.top-countryPanelHeight- paddingAndBorder )+"px" );
             toggleCountryList();
@@ -233,11 +233,12 @@ TimelineGraph.prototype.addData = function(data){
         .append("li")
         .attr("class", "legend" )
         .html(function(d){
-            return "<li><span>●</span>" + country + " <span class=\"close\">[x]</span></li>";
+            return "<span>●</span>" + country + " <span class=\"close\">"
+            + "<i class=\"fa fa-times\"></i>"
+            "</span>";
         })
 
-    legend.select("span.close")
-        .on("click",function(){
+    legend.on("click",function(){
             self.removeData(country);
             legend.remove();
         })
@@ -328,7 +329,7 @@ LineGraph.prototype.render = function( datasets ) {
     if( valueKey == "relative" ){
         format = d3.format("%");
     }
-    var shiftY = 25;
+    var shiftY = 20;
     var yAxis = d3.svg.axis()
         .scale(yScale)
         .ticks(5)

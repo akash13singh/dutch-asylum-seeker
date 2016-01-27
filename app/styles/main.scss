@@ -9,7 +9,7 @@ $font-size: 1em;
 $font-family: 'Oswald', sans-serif;
 
 html, body {
-  background: #3D2802;
+  background: white;
   font-family: $font-family;
   color: #333;
   height: 100%;
@@ -38,7 +38,7 @@ html, body {
         #timeline {
             border-top: 2px solid $basecolor;
             background: white;
-            height : ( 100 - $map-height ) + %;
+            // height : ( 100 - $map-height ) + %;
             z-index: 2000;
         }
     }

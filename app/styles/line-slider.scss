@@ -13,9 +13,8 @@ body {
     }
     .axis line {
       fill: none;
-      stroke: #000;
+      stroke: $lightcolor;
       shape-rendering: crispEdges;
-      opacity: 0.4;
     }
 
     .x.axis path {
@@ -39,15 +38,29 @@ body {
         display: inline-block;
         padding-left: 0px;
         margin: 0px 10px 0px 0px;
-        li {
+        li.legend {
             display: inline-block;
             line-height: 20px;
-            span {
-                vertical-align: middle;
-                font-size: 20px;
+            // border: 1px solid $basecolor;
+            border-radius: 5px;
+            padding: 0px 5px;
+            margin-left: 5px;
+            cursor: pointer;
+
+            &:hover {
+                background: $lightcolor;
             }
-            .close {
-                opacity: 0;
+
+            span {
+                vertical-align: top;
+                font-size: 20px;
+
+                &.close {
+                    line-height: 20px;
+                    font-size: 10px;
+                    opacity: 0;
+                    cursor: pointer;
+                }
             }
 
             &:hover {
@@ -64,9 +77,6 @@ body {
                 transform: rotate(45deg);
             }
         }
-    }
-    .legend {
-        padding: 0px 3px;
     }
 
     .country-panel {
@@ -92,10 +102,19 @@ body {
         }
 
         .country {
-            padding: 3px 0px;
+            padding: 3px;
             font-weight: bold;
             &.hide {
                 display: none;
+            }
+            cursor: pointer;
+
+            &:nth-child(n+2){
+                border-top: 1px solid $lightcolor;
+            }
+
+            &:hover {
+                background: $lightcolor;
             }
         }
 
