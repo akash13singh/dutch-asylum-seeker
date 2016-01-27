@@ -134,7 +134,7 @@ function TimelineGraph( id, options ){
 
     var countryPanel = self.element.select(".country-panel");
         countryPanel.select("input")
-            .on("keypress", function(){
+            .on("keydown", function(){
                 var query = d3.select(this)
                     .property("value")
                     .toLowerCase();
@@ -171,23 +171,6 @@ function TimelineGraph( id, options ){
                 .focus();
 
             var countryList = [
-                'China', 'Japan',
-                'China', 'Japan',
-                'China', 'Japan',
-                'China', 'Japan',
-                'China', 'Japan',
-                'China', 'Japan',
-                'China', 'Japan',
-                'China', 'Japan',
-                'China', 'Japan',
-                'China', 'Japan',
-                'China', 'Japan',
-                'China', 'Japan',
-                'China', 'Japan',
-                'China', 'Japan',
-                'China', 'Japan',
-                'China', 'Japan',
-                'China', 'Japan',
                 'China', 'Japan'
             ];
             var data = _.filter( countryList, function(c){
