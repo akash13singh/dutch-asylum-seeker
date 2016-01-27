@@ -35,9 +35,8 @@ html, body {
             z-index: 0px;
         }
         #timeline {
-
-            background: #EDE28E;
-            
+            border-top: 2px solid $basecolor;
+            background: white;
             height : ( 100 - $map-height ) + %;
             z-index: 2000;
         }
