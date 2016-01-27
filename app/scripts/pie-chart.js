@@ -8,9 +8,7 @@ var d3pieConfig = {
         }
 	},
 	"size": {
-		"canvasHeight": 150,
-		"canvasWidth": 150
-		// "pieOuterRadius": "60%"
+		"pieOuterRadius": "60%"
 	},
 	"data": {
 		"sortOrder": "value-desc",
@@ -48,30 +46,16 @@ var d3pieConfig = {
 	"callbacks": {}
 };
 
-var genderPie = new PieChart("#gender-chart", "Gender", [
-    {
-        "label": "Male",
-        "value": 200
-    },
-    {
-        "label": "Female",
-        "value": 100
-    }
-]);
-var agePie    = new PieChart("#age-group-chart", "Age", [
-    {
-        "label": "< 18 years old",
-        "value": 20
-    },
-    {
-        "label": "18 > years",
-        "value": 300
-    }
-]);
-
 function PieChart( id, title, data ){
     var options = _.extend( d3pieConfig );
     options.header.title.text = title;
+    var width = d3.select(".left.column")
+        .node()
+        .getBoundingClientRect()
+        .width;
+
+    options.size.canvasHeight = width/2;
+    options.size.canvasWidth  = width/2;
 
     if( data ){
         options.data.content = data;
@@ -80,6 +64,9 @@ function PieChart( id, title, data ){
 }
 
 PieChart.prototype.updateData = function( data ) {
+    console.log(data);
+    // this.element.select("*").remove();
     this.element.options.data.content = data;
-    this.element.redraw();
+    this.element.destroy();
+    this.element.recreate();
 }
