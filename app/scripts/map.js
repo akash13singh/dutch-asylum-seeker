@@ -20,10 +20,12 @@ function Map( id ){
     this.svg = svg;
 
     var tooltip = this.element
-        .append("div")
-        .attr("class", "tooltip hidden");
+        .select("div.tooltip");
 
     this.tooltip = tooltip;
+
+    var tooltipTemplate = this.tooltip.select(".wrapper").html();
+    this.tooltipTemplate = Handlebars.compile( tooltipTemplate );
 
     this.topo = null;
 }
@@ -65,12 +67,22 @@ Map.prototype.addToolTip = function(year){
 
         self.tooltip.classed("hidden", false)
              .attr("style", "left:"+(mouse[0]+offsetL)+"px;top:"+(mouse[1]+offsetT)+"px")
-             .html( function() {
-             	if(asylum[d.properties.name])
-             		return "<h4 class=\"title\">"+d.properties.name+"</h4><hr><p>"+year+"|"+asylum[d.properties.name][year]['Total']+"</p>";
-             	else
-             		return d.properties.name;
-             	});
+             .select(".wrapper")
+             .html( function(){
+                 var number = d3.format(",")(asylum[d.properties.name][year]['Total']);
+                 var rank = _.findIndex( totalYearlyData[year].countries, function(obj){
+                     return d.properties.name == obj.country;
+                 });
+                 return self.tooltipTemplate(
+                     {
+                         rank: ordinal(rank+1),
+                         country: d.properties.name,
+                         number: number
+                     }
+                 );
+
+             });
+
       })
       .on("mouseout",  function(d,i) {
         self.tooltip.classed("hidden", true);

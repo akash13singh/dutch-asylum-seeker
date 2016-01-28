@@ -64,7 +64,18 @@
         </div>
     </div>
     <div class="right column">
-        <div id="map"></div>
+        <div id="map">
+            <div class="tooltip hidden">
+                <div class="background"></div>
+                <div class="wrapper">
+                    <div class="rank">{{rank}}</div>
+                    <div class="country-name">{{country}}</div>
+                    <div class="data">
+                        <span class="number">{{number}}</span> requests
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="timeline">
             <div class="wrapper">
                 <select>
@@ -109,6 +120,7 @@
     <script src="/bower_components/colorbrewer/colorbrewer.js"></script>
     <script src="/bower_components/lodash/lodash.js"></script>
     <script src="/bower_components/d3pie/d3pie/d3pie.min.js"></script>
+    <script src="/bower_components/handlebars/handlebars.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
