@@ -152,15 +152,25 @@ body {
             }
     }
 
+
+    
+    .year-selector {
+        stroke: $basecolor;
+        stroke-width: 5px;
+    }
     .year-bullet {
         cursor: pointer;
-        stroke: grey;
-        stroke-width: 3px;
-        fill: grey;
+        stroke: $basecolor;
+        fill: $basecolor;
         z-index: 1000;
 
         &.selected {
             fill: white;
+            stroke-width: 10px !important;
+        }
+
+        &:hover {
+            stroke-width: 3px;
         }
     }
 
