@@ -90,7 +90,6 @@ function TimelineGraph( id, options ){
 
     this.tip = d3.tip()
         .attr('class', 'timeline-tip')
-        .offset([-10, 50])
         .html(function(str) {
             return str;
         });
@@ -227,9 +226,10 @@ TimelineGraph.prototype.addData = function(data){
         } else {
             var dominator = data[i-1].number;
             if( dominator == 0 ) {
-                dominator = 1;
+                d.relative = 0;
+            }else {
+                d.relative = ( d.number - data[i-1].number ) / dominator;
             }
-            d.relative = ( d.number - data[i-1].number ) / dominator;
         }
     })
 
