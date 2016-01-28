@@ -27,10 +27,10 @@
 
         svg .p0_pieChart g {
             .path:nth-child(1){
-                fill: "#113063" !important;
+                fill: "white" !important;
             }
             .path:nth-child(2){
-				fill: "#113063" !important;
+				fill: "white" !important;
             }
         }
 
@@ -40,17 +40,16 @@
     }
 
     table {
-        width: 100%;
+        width: 80%;
         padding: 0px 20px;
+        margin: 0px auto;
         tr:nth-child(1){
             font-weight: bold;
         }
 
-        tr:nth-child(n+2) {
             td:nth-child(3){
                 text-align: right;
             }
-        }
     }
 
     .header {

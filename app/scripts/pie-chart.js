@@ -16,10 +16,10 @@ var d3pieConfig = {
 	"labels": {
 		"outer": {
 			"hideWhenLessThanPercentage": 0,
-			"pieDistance": 5
+			"pieDistance": 2
 		},
 		"mainLabel": {
-			"fontSize": 11
+			"fontSize": 10
 		},
 		"percentage": {
 			"color": "#ffffff",
@@ -27,13 +27,13 @@ var d3pieConfig = {
 		},
 		"value": {
 			"color": "#adadad",
-			"fontSize": 11
+			"fontSize": 8
 		}
 	},
 	"tooltips": {
 		"enabled": true,
 		"type": "placeholder",
-		"string": "{value} submissions"
+		"string": "{value} requests"
 	},
 	"effects": {
 		"pullOutSegmentOnClick": {

@@ -318,7 +318,7 @@ LineGraph.prototype.render = function( datasets ) {
     }
 
     var yDomain = [0,highestValue[valueKey]];
-    var yLabel = "Submissions";
+    var yLabel = "Requests";
     if( valueKey == "relative" ){
         var lowestValue = _.minBy( flattenedDataset, valueKey );
         var candidates = _.map( [ highestValue[valueKey], lowestValue[valueKey] ],

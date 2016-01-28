@@ -3,7 +3,7 @@ function Map( id ){
     this.element = d3.select(id);
 
     this.width  = document.getElementById('map').offsetWidth;
-    this.height = this.width/2;
+    this.height = document.getElementById('map').offsetHeight;
 
     var projection = d3.geo.mercator()
     	.translate([(this.width/2)-30, (this.height/2)+50])
@@ -106,7 +106,7 @@ Map.prototype.colorMap = function(year){
     var present = [];
 
     //Define default colorbrewer scheme
-	var colorSchemeSelect = "Blues";
+	var colorSchemeSelect = "YlOrBr";
 	var colorScheme = colorbrewer[colorSchemeSelect];
 
 
@@ -150,7 +150,7 @@ Map.prototype.colorMap = function(year){
 
 
     var legendX = 10;
-    var legendY = this.height - 28* quantiles;
+    var legendY = this.height - 23* quantiles;
 
 	legend.append('rect')
 		.attr("x", legendX )
