@@ -2,6 +2,7 @@ function LeftPanel(){
 	nv.addGraph(function() {
 	  var chart = nv.models.lineChart()
                     .margin({ left: 20, right: 20 })
+                    .isArea(true)
 		            .useInteractiveGuideline(false)  //We want nice looking tooltips and a guideline!
 		            .showLegend(false)       //Show the legend, allowing users to turn on/off line series.
 		            .showYAxis(false)        //Show the y-axis
@@ -9,7 +10,7 @@ function LeftPanel(){
 	  ;
 
 	  chart.xAxis     //Chart x-axis settings
-		  .axisLabel('Year')
+		  .axisLabel('')
 		  .tickFormat(function(d){
               return d;
           });
@@ -30,7 +31,7 @@ function LeftPanel(){
 		  .datum([{
               values: trend,
               key: "Asylum requests",
-              color: "black"
+              color: "#E2E9F5"
           }])         //Populate the <svg> element with chart data...
 		  .call(chart);          //Finally, render the chart!
 

@@ -17,7 +17,7 @@
     <!-- endbuild -->
 
     <!-- External style -->
-    <link href='https://fonts.googleapis.com/css?family=Oswald:300,400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
 
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
@@ -38,14 +38,15 @@
     <!-- <div id="top-box"> -->
     <!-- </div> -->
     <div class="left column">
+        <div class="header">
+            <h1 class="special-font">Asylum requests to the Netherlands</h1>
+            <div>from different countries during 2007 to 2014</div>
+        </div>
         <div class="wrapper">
-            <div>
-                <h1>Asylum requests to the Netherlands</h1>
-                from different countries during 2007 to 2014 <br>
-            </div>
-            <select id="year-selector">
+            <div class="year special-font">In <select id="year-selector">
             </select>
-            There were <span id="total-number"></span> submissions.
+            there were <span id="total-number"></span> submissions.
+            </div>
             <div id="overall-trend">
                 <svg></svg>
             </div>
@@ -61,6 +62,8 @@
                     <td>Submissions</td>
                 </tr>
             </table>
+        </div>
+        <div class="border">
         </div>
     </div>
     <div class="right column">
@@ -84,9 +87,9 @@
                 </select>
                 <div class="right-block">
                     <ul></ul>
-                    <span class="more-country-button">
+                    <a class="more-country-button" alt="Add a country to compare">
                         <i class="fa fa-plus-circle"></i>
-                    </span>
+                    </a>
                 </div>
                 <div id="chart">
                 </div>

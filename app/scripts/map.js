@@ -106,7 +106,7 @@ Map.prototype.colorMap = function(year){
     var present = [];
 
     //Define default colorbrewer scheme
-	var colorSchemeSelect = "Oranges";
+	var colorSchemeSelect = "Blues";
 	var colorScheme = colorbrewer[colorSchemeSelect];
 
 

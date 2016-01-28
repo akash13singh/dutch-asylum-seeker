@@ -1,33 +1,41 @@
 @import "config";
 
 .left.column {
-    // Dutch Brand Color
-    $color: #FFFFFF;
     background: $basecolor;
+    $color: white;
     color: $color;
+    position: relative;
+    box-sizing: border-box;
+    border-right: 2px solid $basecolor;
 
     .wrapper {
         padding: 10px;
+        z-index: 1000;
     }
     .pie-chart {
         display: inline-block;
         width: 45%;
         svg text {
-            fill: $color !important;
+            font-family: $special-font !important;
+            fill: white !important;
         }
 
         svg g:nth-child(n+2) path {
             stroke: $basecolor !important;
-            // stroke-width: 0px !important;
+            storke: 4px;
         }
 
         svg .p0_pieChart g {
             .path:nth-child(1){
-                fill: "#39588C" !important;
+                fill: "#113063" !important;
             }
             .path:nth-child(2){
-				fill: "#5773A3" !important;
+				fill: "#113063" !important;
             }
+        }
+
+        .p0_tooltips text, .p1_tooltips text{
+            fill: $lightcolor !important;
         }
     }
 
@@ -43,5 +51,27 @@
                 text-align: right;
             }
         }
+    }
+
+    .header {
+        padding: 10px;
+        background: $basecolor;
+        color: white;
+        margin-bottom: 10px;
+        h1 {
+            margin: 0px 0px 2px 0px;
+            padding: 0px;
+            font-size: 30px;
+        }
+    }
+
+
+    #year-selector {
+        font-size: 20px;
+    }
+    .year  {
+        font-size: 15px;
+        text-indent: 10px;
+        margin-bottom: 5px;
     }
 }

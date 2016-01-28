@@ -6,12 +6,9 @@
 $padding: 5px;
 $font-size: 1em;
 
-$font-family: 'Oswald', sans-serif;
 $left-width: 25;
 
 html, body {
-  background: white;
-  font-family: $font-family;
   color: #333;
   height: 100%;
   margin: 0px;
@@ -19,6 +16,9 @@ html, body {
   font-size: $font-size;
 }
 
+.special-font {
+    font-family: $special-font;
+}
 
 .clickable {
     cursor: pointer;
@@ -54,9 +54,13 @@ html, body {
   width: ( 100 - $left-width ) + %;
   height: 100%;
   z-index: 3000;
-  background-color: #ffffff; /*dim the background*/
+  background-color: $lightcolor; /*dim the background*/
 }
 
 #overall-trend {
-    background: white;
+    // background: $lightcolor;
+    // color: $lightcolor !important;
+    svg text {
+        fill: white;
+    }
 }

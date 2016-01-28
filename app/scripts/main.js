@@ -109,6 +109,7 @@ function ready(error,world, asylumRequests ){
                res.push( {
                    label: label,
                    value: obj[label]
+                   // color: '#BCC7DC'
                } );
            });
            return res;

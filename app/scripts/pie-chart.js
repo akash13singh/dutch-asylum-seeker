@@ -2,12 +2,11 @@ var d3pieConfig = {
 	"header": {
 		"title": {
 			"text": "Genders"
-		},
-        "subtitle": {
-			"text": "A full pie chart"
-        }
+		}
 	},
 	"size": {
+		// "canvasHeight": 150,
+		// "canvasWidth": 150,
 		"pieOuterRadius": "60%"
 	},
 	"data": {
@@ -16,7 +15,7 @@ var d3pieConfig = {
 	},
 	"labels": {
 		"outer": {
-			"hideWhenLessThanPercentage": 50,
+			"hideWhenLessThanPercentage": 0,
 			"pieDistance": 5
 		},
 		"mainLabel": {

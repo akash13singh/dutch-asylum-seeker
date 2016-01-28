@@ -403,11 +403,12 @@ LineGraph.prototype.render = function( datasets ) {
                 return i.year == d.year;
             });
 
+
             var c = {
                 country: d.country,
                 number: d3.format(",")(d.number),
                 percentage: d3.format("%")(d.relative),
-                isNotZero: d.relative != 0,
+                isNotZero: d.relative != 0 && valueKey != "relative",
                 sign: d.relative > 0 ? "positive" : "negative"
             };
 
