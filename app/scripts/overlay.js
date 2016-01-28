@@ -29,7 +29,7 @@ Overlay.prototype.createOverlayData = function(country){
 		this.male.push({x:year,y:(countryData[year]["M"]["1"]+countryData[year]["M"]["2"])});
 		this.female.push({x:year,y:(countryData[year]['F']['1']+countryData[year]['F']['2'])});
 		this.below18.push({x:year,y:(countryData[year]['M']['1']+countryData[year]['F']['1'])});
-		this.above18.push({x:year,y:(countryData[year]['F']['1']+countryData[year]['F']['2'])});
+		this.above18.push({x:year,y:(countryData[year]['M']['2']+countryData[year]['F']['2'])});
 	}
 }
 
