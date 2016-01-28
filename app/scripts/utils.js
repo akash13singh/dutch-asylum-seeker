@@ -43,3 +43,20 @@ function toggleVisibility(id) {
        else
           e.style.display = 'block';
 }
+
+function ordinal(num) {
+    var ones = num % 10;
+    var tens = Math.floor(num / 10) % 10;
+    var suff;
+    if (tens == 1) {
+        suff = "th";
+    } else {
+        switch (ones) {
+            case 1 : suff = "st"; break;
+            case 2 : suff = "nd"; break;
+            case 3 : suff = "rd"; break;
+            default : suff = "th";
+        }
+    }
+    return num + suff;
+}

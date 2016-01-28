@@ -20,10 +20,12 @@ function Map( id ){
     this.svg = svg;
 
     var tooltip = this.element
-        .append("div")
-        .attr("class", "tooltip hidden");
+        .select("div.tooltip");
 
     this.tooltip = tooltip;
+
+    var tooltipTemplate = this.tooltip.select(".wrapper").html();
+    this.tooltipTemplate = Handlebars.compile( tooltipTemplate );
 
     this.topo = null;
 }
@@ -61,19 +63,40 @@ Map.prototype.addToolTip = function(year){
     var offsetL = boundary.left+20;
     var offsetT = boundary.top+10;
     country.on("mousemove", function(d,i) {
+        var name = d.properties.name;
+        if( name == self.prevCountry ) { d3.event.stopPropagation(); }
+
+        self.prevCountry = name;
+
         var mouse = d3.mouse(self.svg.node()).map( function(d) { return parseInt(d); } );
 
-        self.tooltip.classed("hidden", false)
-             .attr("style", "left:"+(mouse[0]+offsetL)+"px;top:"+(mouse[1]+offsetT)+"px")
-             .html( function() {
-             	if(asylum[d.properties.name])
-             		return "<h4 class=\"title\">"+d.properties.name+"</h4><hr><p>"+year+"|"+asylum[d.properties.name][year]['Total']+"</p>";
-             	else
-             		return d.properties.name;
-             	});
-      })
-      .on("mouseout",  function(d,i) {
-        self.tooltip.classed("hidden", true);
+        var pos = d3.select(this).node().getBoundingClientRect();
+        var x   = pos.right  - ( pos.right - pos.left )/3;
+        var y   = pos.bottom - ( pos.bottom - pos.top )/3;
+
+        self.tooltip.classed("hidden", function(){
+                return !asylum[name]
+            })
+             .attr("style", "left:"+( x ) +"px;top:"+( y )+"px")
+             .select(".wrapper")
+             .html( function(){
+                 var  country = asylum[name];
+                 if( !country ){ return "" }
+
+                 var number = d3.format(",")(country[year]['Total']);
+                 var rank = _.findIndex( totalYearlyData[year].countries, function(obj){
+                     return name == obj.country;
+                 });
+                 return self.tooltipTemplate(
+                     {
+                         rank:    ordinal(rank+1),
+                         country: name,
+                         number:  number
+                     }
+                 );
+
+             });
+
       });
 
 }
