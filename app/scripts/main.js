@@ -13,10 +13,6 @@ queue().defer(d3.json, "./data/world-topo-min.json")
     .await(ready);
 
 function ready(error,world, asylumRequests ){
-    var config = {
-        country : "Turkey",
-        year: "2008"
-    };
 
     map = new Map("#map");
     overlay = new Overlay("country-overlay");
