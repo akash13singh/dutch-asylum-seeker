@@ -91,8 +91,8 @@ function TimelineGraph( id, options ){
     this.tip = d3.tip()
         .attr('class', 'timeline-tip')
         .offset([-10, 50])
-        .html(function(data) {
-            return JSON.stringify(data);
+        .html(function(str) {
+            return str;
         });
 
         try{
@@ -100,6 +100,14 @@ function TimelineGraph( id, options ){
         } catch(err) {
             console.log(err);
         }
+    this.tip._template = Handlebars.compile(
+        d3.select("template#timeline-tooltip")
+            .html()
+    );
+    this.tip.display = function(d){
+        var str = this._template(d);
+        this.show(str);
+    }
 
     this.focusLine = this.svg.append("line")
         .attr("class", "focus-line")
@@ -390,15 +398,20 @@ LineGraph.prototype.render = function( datasets ) {
         .style("fill", function(d){
             return ColorProvider.colorForKey(d.country);
         }).on("mouseover", function(d,i) {
-            console.log(d);
 
             var data = _.filter( flattenedDataset, function( i ){
                 return i.year == d.year;
             });
 
-            console.log(data);
+            var c = {
+                country: d.country,
+                number: d3.format(",")(d.number),
+                percentage: d3.format("%")(d.relative),
+                isNotZero: d.relative != 0,
+                sign: d.relative > 0 ? "positive" : "negative"
+            };
 
-            tip.show(data);
+            tip.display(c);
 
             var max = _.maxBy( data, valueKey );
 

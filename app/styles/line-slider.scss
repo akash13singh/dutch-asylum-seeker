@@ -170,11 +170,44 @@ body {
 
 .timeline-tip {
   line-height: 1;
-  font-weight: bold;
   padding: 12px;
   background: rgba(0, 0, 0, 0.8);
   color: #fff;
   border-radius: 2px;
+
+  .first-row {
+      margin-bottom: 5px;
+      .country-name {
+          font-size: 13px;
+          font-weight: bold;
+      }
+  }
+
+  .second-row {
+      font-size: 10px;
+      .sign::before {
+            content: "▲";
+      }
+      .sign {
+          font-size: 7px;
+            display: inline-block;
+            vertical-align: middle;
+
+          &.positive {
+              color: green;
+          }
+
+          &.negative {
+              color: red;
+              transform: rotate(180deg);
+          }
+      }
+      .percentage {
+          font-weight: bold;
+      }
+  }
+
+
 }
 
 /* Style northward tooltips differently */

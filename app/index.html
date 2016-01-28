@@ -142,5 +142,17 @@
     <script src="scripts/left-panel.js"></script>
     <script src="scripts/main.js"></script>
     <!-- endbuild -->
+
+
+    <template id="timeline-tooltip">
+        <div class="first-row">
+            <span class="country-name">{{country}}</span> <span class="number">{{number}} submissions</span>
+        </div>
+        <div class="second-row">
+            {{#if isNotZero }}
+            <span class="sign {{sign}}"></span> <span class="percentage">{{percentage}}</span> from last year.
+            {{/if}}
+        </div>
+    </template>
   </body>
 </html>
