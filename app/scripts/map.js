@@ -45,7 +45,8 @@ Map.prototype.draw = function(){
         .attr("class", "country")
         .attr("d", path )
         .attr("id", function(d,i) { return d.id; })
-        .attr("title", function(d,i) { return d.properties.name; });
+        .attr("title", function(d,i) { return d.properties.name; })
+        .classed("valid-country", function(d){ return asylum[d.properties.name]; });
 
 	country.on("click", this.onClick );
 
@@ -59,20 +60,20 @@ Map.prototype.addToolTip = function(year){
     var boundary = this.element.node().getBoundingClientRect();
     var offsetL = boundary.left+20;
     var offsetT = boundary.top+10;
-
-    //tooltips
     country.on("mousemove", function(d,i) {
         var mouse = d3.mouse(self.svg.node()).map( function(d) { return parseInt(d); } );
 
-        self.tooltip.classed("hidden", false)
-             .attr("style", "left:"+(mouse[0]+offsetL)+"px;top:"+(mouse[1]+offsetT)+"px")
-             .html( function() {
-             	if(asylum[d.properties.name])
-             		return d.properties.name+"::"+year+"::"+asylum[d.properties.name][year]['Total']
-             	else
-             		return d.properties.name+"::"+year;
-             	});
-
+        self.tooltip.classed("hidden",function(){
+                return !asylum[d.properties.name];
+            })
+            .attr("style", "left:"+(mouse[0]+offsetL)+"px;top:"+(mouse[1]+offsetT)+"px")
+            .html( function() {
+                if(asylum[d.properties.name])
+                    return d.properties.name+"::"+year+"::"+asylum[d.properties.name][year]['Total']
+                else
+                    return d.properties.name+"::"+year;
+                }
+            );
       })
       .on("mouseout",  function(d,i) {
         self.tooltip.classed("hidden", true);
