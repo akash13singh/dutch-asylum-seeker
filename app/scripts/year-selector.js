@@ -1,13 +1,11 @@
 function YearSelector(id){
     var self = this;
-    var MIN_YEAR = 2007;
-    var MAX_YEAR = 2014;
 
     this.element = d3.select(id)
 
     var dropdown = this.element
         .selectAll("option")
-        .data( _.range( MIN_YEAR, MAX_YEAR+1 ) )
+        .data( _.range( MIN_YEAR, MAX_YEAR ) )
         .enter()
         .append("option")
         .text(function(d){

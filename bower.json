@@ -3,7 +3,6 @@
   "private": true,
   "dependencies": {
     "d3": "~3.5.13",
-    "topojson": "~1.6.20",
     "colorbrewer": "~1.0.0",
     "lodash": "~4.0.1",
     "d3pie": "~0.1.9",
