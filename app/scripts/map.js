@@ -63,29 +63,40 @@ Map.prototype.addToolTip = function(year){
     var offsetL = boundary.left+20;
     var offsetT = boundary.top+10;
     country.on("mousemove", function(d,i) {
+        var name = d.properties.name;
+        if( name == self.prevCountry ) { d3.event.stopPropagation(); }
+
+        self.prevCountry = name;
+
         var mouse = d3.mouse(self.svg.node()).map( function(d) { return parseInt(d); } );
 
-        self.tooltip.classed("hidden", false)
-             .attr("style", "left:"+(mouse[0]+offsetL)+"px;top:"+(mouse[1]+offsetT)+"px")
+        var pos = d3.select(this).node().getBoundingClientRect();
+        var x   = pos.right  - ( pos.right - pos.left )/3;
+        var y   = pos.bottom - ( pos.bottom - pos.top )/3;
+
+        self.tooltip.classed("hidden", function(){
+                return !asylum[name]
+            })
+             .attr("style", "left:"+( x ) +"px;top:"+( y )+"px")
              .select(".wrapper")
              .html( function(){
-                 var number = d3.format(",")(asylum[d.properties.name][year]['Total']);
+                 var  country = asylum[name];
+                 if( !country ){ return "" }
+
+                 var number = d3.format(",")(country[year]['Total']);
                  var rank = _.findIndex( totalYearlyData[year].countries, function(obj){
-                     return d.properties.name == obj.country;
+                     return name == obj.country;
                  });
                  return self.tooltipTemplate(
                      {
-                         rank: ordinal(rank+1),
-                         country: d.properties.name,
-                         number: number
+                         rank:    ordinal(rank+1),
+                         country: name,
+                         number:  number
                      }
                  );
 
              });
 
-      })
-      .on("mouseout",  function(d,i) {
-        self.tooltip.classed("hidden", true);
       });
 
 }
