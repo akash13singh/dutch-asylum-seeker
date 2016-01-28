@@ -63,17 +63,14 @@ Map.prototype.addToolTip = function(year){
     country.on("mousemove", function(d,i) {
         var mouse = d3.mouse(self.svg.node()).map( function(d) { return parseInt(d); } );
 
-        self.tooltip.classed("hidden",function(){
-                return !asylum[d.properties.name];
-            })
-            .attr("style", "left:"+(mouse[0]+offsetL)+"px;top:"+(mouse[1]+offsetT)+"px")
-            .html( function() {
-                if(asylum[d.properties.name])
-                    return d.properties.name+"::"+year+"::"+asylum[d.properties.name][year]['Total']
-                else
-                    return d.properties.name+"::"+year;
-                }
-            );
+        self.tooltip.classed("hidden", false)
+             .attr("style", "left:"+(mouse[0]+offsetL)+"px;top:"+(mouse[1]+offsetT)+"px")
+             .html( function() {
+             	if(asylum[d.properties.name])
+             		return "<h4 class=\"title\">"+d.properties.name+"</h4><hr><p>"+year+"|"+asylum[d.properties.name][year]['Total']+"</p>";
+             	else
+             		return d.properties.name;
+             	});
       })
       .on("mouseout",  function(d,i) {
         self.tooltip.classed("hidden", true);
