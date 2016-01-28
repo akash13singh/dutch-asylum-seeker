@@ -140,17 +140,16 @@ function ready(error,world, asylumRequests ){
     );
 
     map.draw();
+    map.colorMap(config.year);
     timeline.addData( asylum[config.country].toYearlyData() );
     d3.select("#total-number").
         html( d3.format(",")( totalYearlyData[config.year].number ) );
-    leftPanel.setYear(config.year);
+    leftPanel.setYear(config.year, true );
 
     yearSelector.onChange = function(d){
         timeline.setPointerToYear(d);
         map.colorMap(d);
 
-        genderPie.updateData( totalYearlyData[d].data('gender'));
-        agePie.updateData( totalYearlyData[d].data('age'));
         leftPanel.setYear(d);
 
     }
@@ -161,12 +160,17 @@ function ready(error,world, asylumRequests ){
 function LeftPanel(){
 }
 
-LeftPanel.prototype.setYear = function(d){
+LeftPanel.prototype.setYear = function(d, firstTime ){
     var leftPanel = d3.select(".left.column");
     leftPanel.select("#total-number")
         .html( d3.format(",")( totalYearlyData[d].number ) );
 
     yearSelector.setYear(d);
+
+    if( !firstTime ){
+        genderPie.updateData( totalYearlyData[d].data('gender'));
+        agePie.updateData( totalYearlyData[d].data('age'));
+    }
 
     leftPanel.selectAll(".country")
         .remove("*");
