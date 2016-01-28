@@ -187,6 +187,7 @@ Overlay.prototype.createOverlayCharts = function(country){
 
 
 Overlay.prototype.show = function(country){
+	document.getElementById("country-name").innerHTML = country;
     this.createOverlayCharts(country);
 	toggleVisibility("country-overlay");
 }
