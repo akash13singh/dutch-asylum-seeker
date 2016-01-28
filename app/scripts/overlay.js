@@ -1,9 +1,9 @@
 function Overlay(id){
 	this.element = d3.select(id);
-	
+
 	this.width  = document.getElementById('country-overlay').offsetWidth;
     this.height = this.width/2;
-	this.closeOverlayButton = document.getElementById('close-overlay-button'); 
+	this.closeOverlayButton = document.getElementById('close-overlay-button');
 
 	this.closeOverlayButton.onclick = function() {
 		var div = document.getElementById('country-overlay');
@@ -35,10 +35,10 @@ Overlay.prototype.createOverlayData = function(country){
 
 
 Overlay.prototype.createOverlayCharts = function(country){
-    
+
     self = this;
  	this.createOverlayData(country);
- 	
+
 	/*These lines are all chart setup.  Pick and choose which chart features you want to utilize. */
 	nv.addGraph(function() {
 	  var chart = nv.models.lineChart()
@@ -61,16 +61,16 @@ Overlay.prototype.createOverlayCharts = function(country){
 	  /* Done setting the chart up? Time to render it!*/
 	  var myData = totalCountryData();   //You need data...
 
-	  d3.select('#totalChart svg')    //Select the <svg> element you want to render the chart in.   
+	  d3.select('#totalChart svg')    //Select the <svg> element you want to render the chart in.
 		  .datum(myData)         //Populate the <svg> element with chart data...
 		  .call(chart);          //Finally, render the chart!
-		  
+
 	  //Update the chart when window resizes.
 	  nv.utils.windowResize(function() { chart.update() });
 	  return chart;
 	});
-	
-	
+
+
 	/*These lines are all chart setup.  Pick and choose which chart features you want to utilize. */
 	nv.addGraph(function() {
 	  var chart = nv.models.lineChart()
@@ -93,16 +93,16 @@ Overlay.prototype.createOverlayCharts = function(country){
 	  /* Done setting the chart up? Time to render it!*/
 	  var myData = genderData();   //You need data...
 
-	  d3.select('#genderChart svg')    //Select the <svg> element you want to render the chart in.   
+	  d3.select('#genderChart svg')    //Select the <svg> element you want to render the chart in.
 		  .datum(myData)         //Populate the <svg> element with chart data...
 		  .call(chart);          //Finally, render the chart!
-		  
+
 	  //Update the chart when window resizes.
 	  nv.utils.windowResize(function() { chart.update() });
 	  return chart;
 	});
-	
-	
+
+
 	/*These lines are all chart setup.  Pick and choose which chart features you want to utilize. */
 	nv.addGraph(function() {
 	  var chart = nv.models.lineChart()
@@ -125,18 +125,18 @@ Overlay.prototype.createOverlayCharts = function(country){
 	  /* Done setting the chart up? Time to render it!*/
 	  var myData = ageData();   //You need data...
 
-	  d3.select('#ageChart svg')    //Select the <svg> element you want to render the chart in.   
+	  d3.select('#ageChart svg')    //Select the <svg> element you want to render the chart in.
 		  .datum(myData)         //Populate the <svg> element with chart data...
 		  .call(chart);          //Finally, render the chart!
-		  
+
 	  //Update the chart when window resizes.
 	  nv.utils.windowResize(function() { chart.update() });
 	  return chart;
 	});
-	
-	
-	
-	
+
+
+
+
 	/**************************************
 	 * Simple test data generator
 	 */
@@ -150,7 +150,7 @@ Overlay.prototype.createOverlayCharts = function(country){
 		}
 	  ];
 	}
-	
+
 	function genderData() {
 		  //Line chart data should be sent as an array of series objects.
 		  return [
@@ -166,7 +166,7 @@ Overlay.prototype.createOverlayCharts = function(country){
 			}
 		  ];
 	}
-	
+
 	function ageData() {
 		  //Line chart data should be sent as an array of series objects.
 		  return [

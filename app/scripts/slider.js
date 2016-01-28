@@ -373,7 +373,7 @@ LineGraph.prototype.render = function( datasets ) {
             .attr("y2", yScale(0) )
             .attr("stroke", "black" )
             .attr("stroke-width", "2px")
-            .attr("opacity", 1 );
+            .attr("opacity", 0.2 );
     }
 
     this.element.append("g")

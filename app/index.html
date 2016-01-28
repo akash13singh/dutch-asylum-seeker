@@ -39,9 +39,16 @@
     <!-- </div> -->
     <div class="left column">
         <div class="wrapper">
+            <div>
+                <h1>Asylum requests to the Netherlands</h1>
+                from different countries during 2007 to 2014 <br>
+            </div>
             <select id="year-selector">
             </select>
             There were <span id="total-number"></span> submissions.
+            <div id="overall-trend">
+                <svg></svg>
+            </div>
             <div>
                 <div class="pie-chart" id="gender-chart"></div>
                 <div class="pie-chart" id="age-group-chart"></div>
@@ -94,16 +101,6 @@
         </div>
     </div>
 		
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-    <script>
-      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-      e.src='https://www.google-analytics.com/analytics.js';
-      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-      ga('create','UA-XXXXX-X');ga('send','pageview');
-    </script>
-
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
@@ -129,6 +126,7 @@
     <script src="scripts/year-selector.js"></script>
     <script src="scripts/nv.d3.js"></script>
     <script src="scripts/overlay.js"></script>
+    <script src="scripts/left-panel.js"></script>
     <script src="scripts/main.js"></script>
     <!-- endbuild -->
   </body>

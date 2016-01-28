@@ -20,6 +20,10 @@ html, body {
 }
 
 
+.clickable {
+    cursor: pointer;
+}
+
 .column {
     float: left;
     height: 100%;
@@ -51,4 +55,8 @@ html, body {
   height: 100%;
   z-index: 3000;
   background-color: #ffffff; /*dim the background*/
+}
+
+#overall-trend {
+    background: white;
 }

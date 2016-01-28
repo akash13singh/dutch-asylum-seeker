@@ -1,25 +1,29 @@
-.country {
-    stroke: #ccc;
-    stroke-width: 1px;
-}
-
-.country:hover{
-    stroke: #ddd;
-    stroke-width: 2px;
-}
-
-.text{
-    font-size:10px;
-    text-transform:capitalize;
-}
+@import 'config';
 
 #map {
-    margin:10px 10%;
-    border:1px solid #000;
-    border-radius: 5px;
     height:100%;
     overflow:hidden;
-    background: #B1FAF6;
+    background: $lightcolor;
+
+    .text{
+        font-size:10px;
+        text-transform:capitalize;
+    }
+
+    .country {
+        stroke: #ccc;
+        stroke-width: 1px;
+
+        &.valid-country {
+            cursor: pointer;
+        }
+    }
+
+    .country:hover{
+        stroke: #ddd;
+        stroke-width: 2px;
+    }
+
 }
 
 .hidden {

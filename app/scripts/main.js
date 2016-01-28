@@ -140,45 +140,19 @@ function ready(error,world, asylumRequests ){
     );
 
     map.draw();
+    map.colorMap(config.year);
     timeline.addData( asylum[config.country].toYearlyData() );
     d3.select("#total-number").
         html( d3.format(",")( totalYearlyData[config.year].number ) );
-    leftPanel.setYear(config.year);
+    leftPanel.setYear(config.year, true );
 
     yearSelector.onChange = function(d){
         timeline.setPointerToYear(d);
         map.colorMap(d);
 
-        genderPie.updateData( totalYearlyData[d].data('gender'));
-        agePie.updateData( totalYearlyData[d].data('age'));
         leftPanel.setYear(d);
 
     }
 
 
-}
-
-function LeftPanel(){
-}
-
-LeftPanel.prototype.setYear = function(d){
-    var leftPanel = d3.select(".left.column");
-    leftPanel.select("#total-number")
-        .html( d3.format(",")( totalYearlyData[d].number ) );
-
-    yearSelector.setYear(d);
-
-    leftPanel.selectAll(".country")
-        .remove("*");
-
-    leftPanel.select("#rank").selectAll(".country")
-        .data( totalYearlyData[d].countries.slice(0,3)  )
-        .enter()
-        .append('tr')
-        .attr("class", "country")
-        .html(function(d,i){
-            return "<td>"+ (i+1) + "</td>"+
-            "<td>"+d.country+"</td>"+
-            "<td>"+d3.format(",")(d.number)+"</td";
-        });
 }
