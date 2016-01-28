@@ -49,14 +49,14 @@ function ready(error,world, asylumRequests ){
         	 //TODO : remove later. done to simplify json building
         	 tmp['Citizenship'] = obj['Citizenship'];
         	 tmp[2007] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
-		 tmp[2008] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
-		 tmp[2009] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
-		 tmp[2010] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
-		 tmp[2011] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
-		 tmp[2012] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
-		 tmp[2013] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
-		 tmp[2014] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
-		 tmp[2015] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
+		     tmp[2008] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
+		     tmp[2009] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
+		     tmp[2010] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
+		     tmp[2011] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
+		     tmp[2012] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
+		     tmp[2013] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
+		     tmp[2014] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
+		     tmp[2015] = {'Total':0,'M':{1:0,2:0},F:{1:0,2:0}};
         	 tmp[obj['Periods']]['Total'] = +obj['number'];
         	 tmp[obj['Periods']][obj['Sex']][obj['Age']] =  +obj['number'];
         	 //console.log(JSON.stringify(tmp));
