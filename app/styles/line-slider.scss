@@ -41,13 +41,14 @@ body {
         padding-left: 0px;
         margin: 0px 10px 0px 0px;
         li.legend {
+            $line-height: 23px;
             display: inline-block;
-            line-height: 20px;
-            // border: 1px solid $basecolor;
+            line-height: $line-height;
             border-radius: 5px;
             padding: 0px 5px;
             margin-left: 5px;
             cursor: pointer;
+            vertical-align: middle;
 
             &:hover {
                 background: $lightcolor;
@@ -58,11 +59,20 @@ body {
                 font-size: 20px;
 
                 &.close {
-                    line-height: 20px;
-                    font-size: 10px;
+                    color: $basecolor;
+                    line-height: $line-height;
+                    font-size: 14px;
                     opacity: 0;
                     cursor: pointer;
+                    vertical-align: top;
+                    display: inline-block;
                 }
+            }
+
+            span.country {
+                font-size: 12px;
+                margin: 0px 3px;
+
             }
 
             &:hover {

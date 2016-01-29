@@ -241,7 +241,7 @@ TimelineGraph.prototype.addData = function(data){
         .append("li")
         .attr("class", "legend" )
         .html(function(d){
-            return "<span>●</span>" + country + " <span class=\"close\">"
+            return "<span>●</span><span class=\"country\">" + country + "</span><span class=\"close\">"
             + "<i class=\"fa fa-times\"></i>"
             "</span>";
         })
