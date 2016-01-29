@@ -32,6 +32,7 @@
 }
 
 div.tooltip {
+    position: fixed;
     .wrapper {
         padding: 10px;
 
@@ -67,7 +68,6 @@ div.tooltip {
         z-index: 1000;
     }
 
-    position: absolute;
     &.hidden {
         display: none;
     }

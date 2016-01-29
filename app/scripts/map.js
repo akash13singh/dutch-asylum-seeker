@@ -71,6 +71,7 @@ Map.prototype.addToolTip = function(year){
         var mouse = d3.mouse(self.svg.node()).map( function(d) { return parseInt(d); } );
 
         var pos = d3.select(this).node().getBoundingClientRect();
+        console.log(pos);
         var x   = pos.right  - ( pos.right - pos.left )/3;
         var y   = pos.bottom - ( pos.bottom - pos.top )/3;
 
