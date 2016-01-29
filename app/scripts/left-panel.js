@@ -142,9 +142,9 @@ LeftPanel.prototype.drawTrends = function(){
         .attr("class", "year-pointer")
         .attr("r", 5 );
 
-    this.tooltip = svg.append("text")
-        .attr("class", "tooltip")
-        .text("xxxx");
+    // this.tooltip = svg.append("text")
+    //     .attr("class", "tooltip")
+    //     .text("xxxx");
 
 
 
