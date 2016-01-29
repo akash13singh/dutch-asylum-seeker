@@ -1,53 +1,15 @@
-function LeftPanel(){
-	nv.addGraph(function() {
-	  var chart = nv.models.lineChart()
-                    .margin({ left: 20, right: 20 })
-                    .isArea(true)
-		            .useInteractiveGuideline(false)  //We want nice looking tooltips and a guideline!
-		            .showLegend(false)       //Show the legend, allowing users to turn on/off line series.
-		            .showYAxis(false)        //Show the y-axis
-		            .showXAxis(true)        //Show the x-axis
-	  ;
-
-	  chart.xAxis     //Chart x-axis settings
-		  .axisLabel('')
-		  .tickFormat(function(d){
-              return d;
-          });
-
-	  chart.yAxis     //Chart y-axis settings
-		  .axisLabel('Asylum Requests')
-		  .tickFormat(d3.format(','));
-
-	  /* Done setting the chart up? Time to render it!*/
-      var trend = _.map( totalYearlyData, function(d,k){
-          return {
-              x: k,
-              y: d.number
-          }
-      });
-
-	  d3.select('#overall-trend svg')    //Select the <svg> element you want to render the chart in.
-		  .datum([{
-              values: trend,
-              key: "Asylum requests",
-              color: "#E2E9F5"
-          }])         //Populate the <svg> element with chart data...
-		  .call(chart);          //Finally, render the chart!
-
-	  //Update the chart when window resizes.
-	  nv.utils.windowResize(function() { chart.update() });
-	  return chart;
-	});
-
-}
+function LeftPanel(){}
 
 LeftPanel.prototype.setYear = function(d, firstTime ){
+    var self = this;
+
     var leftPanel = d3.select(".left.column");
+    var number = totalYearlyData[d].number
     leftPanel.select("#total-number")
-        .html( d3.format(",")( totalYearlyData[d].number ) );
+        .html( d3.format(",")(number) );
 
     yearSelector.setYear(d);
+
 
     if( !firstTime ){
         genderPie.updateData( totalYearlyData[d].data('gender'));
@@ -67,4 +29,95 @@ LeftPanel.prototype.setYear = function(d, firstTime ){
             "<td>"+d.country+"</td>"+
             "<td>"+d3.format(",")(d.number)+"</td";
         });
+
+    this.yearPointer
+        .attr("cx", function(){ return self.xScale(d); })
+        .attr("cy", function(){ return self.yScale(number) });
+}
+
+LeftPanel.prototype.drawTrends = function(){
+    var trend = _.map( totalYearlyData, function(d,k){
+        return {
+            x: parseInt(k),
+            y: parseInt(d.number)
+        }
+    });
+
+    var max = _.maxBy( trend, "y" );
+
+    var margin = {
+        left: 20,
+        bottom: 30,
+        top: 10,
+        right: 20,
+    };
+    var pos = d3.select("#overall-trend").node().getBoundingClientRect();
+    var width = pos.width -  margin.left - margin.right;
+    var height = 130 - margin.bottom - margin.top;
+    var x = d3.scale.linear()
+        .domain([MIN_YEAR, MAX_YEAR-1])
+        .range([0, width])
+        ;
+
+    var y = d3.scale.linear()
+        .range([height, 0])
+        .domain([0, max.y ])
+        .nice();
+
+    this.xScale = x;
+    this.yScale = y;
+
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .tickFormat(function(d, i ){
+            if( d == MIN_YEAR || d == MAX_YEAR - 1 ) {
+                return d3.format("y")(d);
+            }
+            return "'"+d3.format("02d")(d%100);
+        })
+        .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .ticks(5)
+        .orient("left");
+
+    var line = d3.svg.line()
+        .x(function(d) { return x(d.x); })
+        .y(function(d) { return y(d.y); });
+
+
+    var svg = d3.select('#overall-trend')
+        .append('svg')    //Select the <svg> element you want to render the chart in.
+        .attr("width", width + margin.left+ margin.right )
+        .attr("height", height + margin.bottom + margin.top )
+        .append("g")
+        .attr("transform", "translate(" + margin.left +" ," + margin.top +")" );
+
+    this.yearPointer = svg.append("circle")
+        .attr("class", "year-pointer")
+        .attr("r", 5 );
+
+      svg.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + height + ")")
+          .call(xAxis);
+
+      svg.append("g")
+          .attr("class", "y axis")
+          .call(yAxis)
+        .append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 6)
+          .attr("dy", ".71em")
+          .style("text-anchor", "end")
+          .text("Price ($)");
+
+      svg.append("path")
+          .datum(trend)
+          .attr("class", "line")
+          .attr("d", function(d){
+              return line(d);
+          });
+
 }

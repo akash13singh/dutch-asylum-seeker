@@ -50,10 +50,35 @@ html, body {
 }
 
 #overall-trend {
-    // background: $lightcolor;
-    // color: $lightcolor !important;
     svg text {
-        fill: white;
+        fill: $lightcolor;
+    }
+
+    .line {
+        fill: none;
+        stroke: $lightcolor;
+        stroke-width: 2px;
+    }
+
+    .y.axis {
+        display: none;
+    }
+
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: $lightcolor;
+      stroke-width: 0.5px;
+      shape-rendering: crispEdges;
+    }
+    .x.axis path {
+      display: none;
+    }
+
+    .year-pointer {
+        fill: $lightcolor;
+        stroke: $lightcolor;
+        stroke-width: 2px;
     }
 }
 

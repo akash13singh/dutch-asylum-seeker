@@ -143,6 +143,8 @@ function ready(error,world, asylumRequests ){
     timeline.addData( asylum[config.country].toYearlyData() );
     d3.select("#total-number").
         html( d3.format(",")( totalYearlyData[config.year].number ) );
+
+    leftPanel.drawTrends();
     leftPanel.setYear(config.year, true );
 
     yearSelector.onChange = function(d){
