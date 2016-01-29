@@ -5,6 +5,7 @@ var yearSelector;
 var genderPie;
 var agePie;
 var leftPanel;
+var overlay;
 
 var totalYearlyData = {};
 

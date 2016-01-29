@@ -100,17 +100,24 @@
                 <input type="text" name="country-query" placeholder="Search for a country"/>
             </div>
         </div>
-        <div id="country-overlay" class="hidden">
-            <button class="close" id ="close-overlay-button">&times;</button>
-            <h1 id="country-name">country</h1>
-            <div id="totalChart">
-                 <svg></svg>
-            </div>
-            <div id="genderChart">
-                 <svg></svg>
-            </div>
-            <div id="ageChart">
-                 <svg></svg>
+        <div id="country-overlay">
+            <div class="wrapper">
+                <div class="close" id ="close-overlay-button">
+                    &times;
+                </div>
+                <h2 id="country-name">China</h2>
+                <div id="totalChart">
+                    <h3>Total Asylum requests</h3>
+                     <svg></svg>
+                </div>
+                <div id="genderChart">
+                    <h3>Requests based on gender</h3>
+                     <svg></svg>
+                </div>
+                <div id="ageChart">
+                    <h3>Requests based on age</h3>
+                     <svg></svg>
+                </div>
             </div>
         </div>
     </div>

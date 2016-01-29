@@ -1,22 +1,57 @@
+@import "config";
+
+#country-overlay {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 100%;
+    z-index: 3000;
+    background: white;
+    overflow: hidden;
+
+    h2 {
+        margin: 0px 0px 35px 0px;
+    }
+
+    h3 {
+        font-size: 12px;
+    }
+
+    .wrapper {
+        padding: 50px;
+    }
+    svg {
+        height: 30%;
+    }
+}
+
 #close-overlay-button {
-	float:right;
+    $font-size: 15px;
+    float:right;
     z-index: 5000;
     position: absolute;
-    right: 0px;
+    right: 10px;
+    top: 0px;
+    color: white;
+    cursor: pointer;
+    background:     $basecolor;
+    padding:        $font-size;
+    font-size:      $font-size;
+    line-height:    $font-size;
 }
 
-#totalChart svg {
-  height: 250px;
-  width: 800px
-}
+// #totalChart svg {
+//     height: 250px;
+//     width: 800px
+// }
 
-#genderChart svg {
-  height: 250px;
-  width: 800px
-}
+// #genderChart svg {
+//     height: 250px;
+//     width: 800px
+// }
 
 
-#ageChart svg {
-  height: 250px;
-  width: 800px
-}
+// #ageChart svg {
+//     height: 250px;
+//     width: 800px
+// }

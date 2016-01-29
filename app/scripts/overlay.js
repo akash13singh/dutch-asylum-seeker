@@ -1,195 +1,203 @@
 function Overlay(id){
-	this.element = d3.select(id);
+    this.element = d3.select(id);
 
-	this.width  = document.getElementById('country-overlay').offsetWidth;
+    this.width  = document.getElementById('country-overlay').offsetWidth;
     this.height = this.width/2;
-	this.closeOverlayButton = document.getElementById('close-overlay-button');
+    this.closeOverlayButton = document.getElementById('close-overlay-button');
 
-	this.closeOverlayButton.onclick = function() {
-		var div = document.getElementById('country-overlay');
-		if (div.style.display !== 'none') {
-		    div.style.display = 'none';
-		}
-	};
+    this.closeOverlayButton.onclick = function() {
+        var div = document.getElementById('country-overlay');
+        if (div.style.display !== 'none') {
+            div.style.display = 'none';
+        }
+    };
+
+    this.firstColor  = "#f7f7f7";
+    this.secondColor = "#67a9cf";
 }
 
 
 Overlay.prototype.createOverlayData = function(country){
-	this.male = [];
-	this.female = [];
-	this.below18 = [];
-	this.above18 =[ ];
-	this.total = [];
-	countryData = asylum[country];
-	console.log(JSON.stringify(countryData))
-	for( var year in countryData){
-	    if(!parseInt(year)) continue;
-		this.total.push({x:year,y:countryData[year]['Total']});
-		console.log(year+"::"+countryData[year]);
-		this.male.push({x:year,y:(countryData[year]["M"]["1"]+countryData[year]["M"]["2"])});
-		this.female.push({x:year,y:(countryData[year]['F']['1']+countryData[year]['F']['2'])});
-		this.below18.push({x:year,y:(countryData[year]['M']['1']+countryData[year]['F']['1'])});
-		this.above18.push({x:year,y:(countryData[year]['M']['2']+countryData[year]['F']['2'])});
-	}
+    this.male = [];
+    this.female = [];
+    this.below18 = [];
+    this.above18 =[ ];
+    this.total = [];
+    countryData = asylum[country];
+    console.log(JSON.stringify(countryData))
+    for( var year in countryData){
+        if(!parseInt(year)) continue;
+        this.total.push({x:year,y:countryData[year]['Total']});
+        console.log(year+"::"+countryData[year]);
+        this.male.push({x:year,y:(countryData[year]["M"]["1"]+countryData[year]["M"]["2"])});
+        this.female.push({x:year,y:(countryData[year]['F']['1']+countryData[year]['F']['2'])});
+        this.below18.push({x:year,y:(countryData[year]['M']['1']+countryData[year]['F']['1'])});
+        this.above18.push({x:year,y:(countryData[year]['M']['2']+countryData[year]['F']['2'])});
+    }
 }
 
 
 Overlay.prototype.createOverlayCharts = function(country){
 
-    self = this;
- 	this.createOverlayData(country);
-
-	/*These lines are all chart setup.  Pick and choose which chart features you want to utilize. */
-	nv.addGraph(function() {
-	  var chart = nv.models.lineChart()
-		            .margin({left: 200})  //Adjust chart margins to give the x-axis some breathing room.
-		            .useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
-		            //.transitionDuration(350)  //how fast do you want the lines to transition?
-		            .showLegend(true)       //Show the legend, allowing users to turn on/off line series.
-		            .showYAxis(true)        //Show the y-axis
-		            .showXAxis(true)        //Show the x-axis
-	  ;
-
-	  chart.xAxis     //Chart x-axis settings
-		  .axisLabel('Year')
-		  .tickFormat(d3.format(',r'));
-
-	  chart.yAxis     //Chart y-axis settings
-		  .axisLabel('Asylum Requests')
-		  .tickFormat(d3.format('.02f'));
-
-	  /* Done setting the chart up? Time to render it!*/
-	  var myData = totalCountryData();   //You need data...
-
-	  d3.select('#totalChart svg')    //Select the <svg> element you want to render the chart in.
-		  .datum(myData)         //Populate the <svg> element with chart data...
-		  .call(chart);          //Finally, render the chart!
-
-	  //Update the chart when window resizes.
-	  nv.utils.windowResize(function() { chart.update() });
-	  return chart;
-	});
+    var self = this;
+    this.createOverlayData(country);
 
 
-	/*These lines are all chart setup.  Pick and choose which chart features you want to utilize. */
-	nv.addGraph(function() {
-	  var chart = nv.models.lineChart()
-		            .margin({left: 200})  //Adjust chart margins to give the x-axis some breathing room.
-		            .useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
-		            //.transitionDuration(350)  //how fast do you want the lines to transition?
-		            .showLegend(true)       //Show the legend, allowing users to turn on/off line series.
-		            .showYAxis(true)        //Show the y-axis
-		            .showXAxis(true)        //Show the x-axis
-	  ;
+    var xAxis;
 
-	  chart.xAxis     //Chart x-axis settings
-		  .axisLabel('Year')
-		  .tickFormat(d3.format(',r'));
+    nv.addGraph(function() {
+        var chart = nv.models.lineChart()
+        .useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
+        .showYAxis(true)        //Show the y-axis
+        .showXAxis(true)        //Show the x-axis
 
-	  chart.yAxis     //Chart y-axis settings
-		  .axisLabel('Asylum Requests')
-		  .tickFormat(d3.format('.02f'));
-
-	  /* Done setting the chart up? Time to render it!*/
-	  var myData = genderData();   //You need data...
-
-	  d3.select('#genderChart svg')    //Select the <svg> element you want to render the chart in.
-		  .datum(myData)         //Populate the <svg> element with chart data...
-		  .call(chart);          //Finally, render the chart!
-
-	  //Update the chart when window resizes.
-	  nv.utils.windowResize(function() { chart.update() });
-	  return chart;
-	});
+        chart.xAxis     //Chart x-axis settings
+        .axisLabel('Year')
+        .tickFormat(d3.format('y'));
 
 
-	/*These lines are all chart setup.  Pick and choose which chart features you want to utilize. */
-	nv.addGraph(function() {
-	  var chart = nv.models.lineChart()
-		            .margin({left: 200})  //Adjust chart margins to give the x-axis some breathing room.
-		            .useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
-		            //.transitionDuration(350)  //how fast do you want the lines to transition?
-		            .showLegend(true)       //Show the legend, allowing users to turn on/off line series.
-		            .showYAxis(true)        //Show the y-axis
-		            .showXAxis(true)        //Show the x-axis
-	  ;
+        chart.yAxis     //Chart y-axis settings
+        .axisLabel('')
+        .tickFormat(d3.format(','));
 
-	  chart.xAxis     //Chart x-axis settings
-		  .axisLabel('Year')
-		  .tickFormat(d3.format(',r'));
+        /* Done setting the chart up? Time to render it!*/
+        var myData = totalCountryData();   //You need data...
 
-	  chart.yAxis     //Chart y-axis settings
-		  .axisLabel('Asylum Requests')
-		  .tickFormat(d3.format('.02f'));
+        self.chart = d3.select('#totalChart svg')    //Select the <svg> element you want to render the chart in.
+        .datum(myData)         //Populate the <svg> element with chart data...
+        .call(chart);          //Finally, render the chart!
 
-	  /* Done setting the chart up? Time to render it!*/
-	  var myData = ageData();   //You need data...
+        //Update the chart when window resizes.
+        // nv.utils.windowResize(function() { chart.update() });
+        var genderChart = nv.models.lineChart()
+        .useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
+        .showLegend(true)       //Show the legend, allowing users to turn on/off line series.
+        .showYAxis(true)        //Show the y-axis
+        .showXAxis(true)        //Show the x-axis
+        ;
 
-	  d3.select('#ageChart svg')    //Select the <svg> element you want to render the chart in.
-		  .datum(myData)         //Populate the <svg> element with chart data...
-		  .call(chart);          //Finally, render the chart!
+        genderChart.xAxis     //Chart x-axis settings
+        .axisLabel('Year')
+        .tickFormat(d3.format('y'));
 
-	  //Update the chart when window resizes.
-	  nv.utils.windowResize(function() { chart.update() });
-	  return chart;
-	});
+        genderChart.yAxis     //Chart y-axis settings
+        .axisLabel('')
+        .tickFormat(d3.format(','));
+
+        /* Done setting the chart up? Time to render it!*/
+        var myData = genderData();   //You need data...
+
+        d3.select('#genderChart svg')    //Select the <svg> element you want to render the chart in.
+        .datum(myData)         //Populate the <svg> element with chart data...
+        .call(genderChart);          //Finally, render the chart!
+
+    });
+
+
+    /*These lines are all chart setup.  Pick and choose which chart features you want to utilize. */
+    nv.addGraph(function() {
+
+        // nv.utils.windowResize(function() { chart.update() });
+        // return chart;
+    });
+    console.log(self.genderChart);
+
+
+    /*These lines are all chart setup.  Pick and choose which chart features you want to utilize. */
+    nv.addGraph(function() {
+        var chart = nv.models.lineChart()
+        // .margin({left: 200})  //Adjust chart margins to give the x-axis some breathing room.
+        .useInteractiveGuideline(true)  //We want nice looking tooltips and a guideline!
+        //.transitionDuration(350)  //how fast do you want the lines to transition?
+        .showLegend(true)       //Show the legend, allowing users to turn on/off line series.
+        .showYAxis(true)        //Show the y-axis
+        .showXAxis(true)        //Show the x-axis
+        ;
+
+        var yearFormat = 'd'
+        chart.xAxis     //Chart x-axis settings
+        .axisLabel('Year')
+        .tickFormat(d3.format(yearFormat));
+
+        chart.yAxis     //Chart y-axis settings
+        .axisLabel('')
+        .tickFormat(d3.format(','));
+
+        /* Done setting the chart up? Time to render it!*/
+        var myData = ageData();   //You need data...
+
+        var c = d3.select('#ageChart svg')    //Select the <svg> element you want to render the chart in.
+        .datum(myData)         //Populate the <svg> element with chart data...
+        .call(chart);          //Finally, render the chart!
+
+        // chart.interactiveLayer.dispatch.on('elementMousemove.name', self.hover );
+
+        // , function(e) {
+        // console.log(">>>>>>>>> ");
+        // });
+
+
+        nv.utils.windowResize(function() { chart.update() });
+        return chart;
+    });
 
 
 
 
-	/**************************************
-	 * Simple test data generator
-	 */
-	function totalCountryData() {
-	  //Line chart data should be sent as an array of series objects.
-	  return [
-		{
-		  values: self.total,      //values - represents the array of {x,y} data points
-		  key: 'total', //key  - the name of the series.
-		  color: '#ff7f0e'  //color - optional: choose your own line color.
-		}
-	  ];
-	}
+    function totalCountryData() {
+        return [
+            {
+                values: self.total,      //values - represents the array of {x,y} data points
+                key: 'Total', //key  - the name of the series.
+                color: this.firstColor
+            }
+        ];
+    }
 
-	function genderData() {
-		  //Line chart data should be sent as an array of series objects.
-		  return [
-			{
-			  values: self.male,      //values - represents the array of {x,y} data points
-			  key: 'Male', //key  - the name of the series.
-			  color: '#ff7f0e'  //color - optional: choose your own line color.
-			},
-			{
-			  values: self.female,
-			  key: 'Female',
-			  color: '#2ca02c'
-			}
-		  ];
-	}
+    function genderData() {
+        return [
+            {
+                values: self.male,      //values - represents the array of {x,y} data points
+                key: 'Male', //key  - the name of the series.
+                color: this.firstColor
+            },
+            {
+                values: self.female,
+                key: 'Female',
+                color: this.secondColor
+            }
+        ];
+    }
 
-	function ageData() {
-		  //Line chart data should be sent as an array of series objects.
-		  return [
-			{
-			  values: self.below18,      //values - represents the array of {x,y} data points
-			  key: 'below 18', //key  - the name of the series.
-			  color: '#ff7f0e'  //color - optional: choose your own line color.
-			},
-			{
-			  values: self.above18,
-			  key: '18 & above',
-			  color: '#2ca02c'
-			}
-		  ];
-	}
+    function ageData() {
+        return [
+            {
+                values: self.below18,      //values - represents the array of {x,y} data points
+                key: 'below 18', //key  - the name of the series.
+                color: this.firstColor  //color - optional: choose your own line color.
+            },
+            {
+                values: self.above18,
+                key: '18 & above',
+                color: this.secondColor
+            }
+        ];
+    }
 }
+
+
+Overlay.prototype.hover = function(i){
+    // console.log('xxxxx');
+    // d3.selectAll("#country-overlay .nvtooltip")
+    //     .style("opacity", "1" );
+};
 
 
 
 Overlay.prototype.show = function(country){
-	document.getElementById("country-name").innerHTML = country;
+    document.getElementById("country-name").innerHTML = country;
     this.createOverlayCharts(country);
-	toggleVisibility("country-overlay");
+    toggleVisibility("country-overlay");
 }
 
 

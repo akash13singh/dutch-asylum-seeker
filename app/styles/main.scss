@@ -36,6 +36,7 @@ html, body {
         width: ( 100 - $left-width ) + %;
         $map-height: 65;
         #map { 
+            position: relative;
             height: $map-height + %;
             z-index: 0px;
         }
@@ -48,19 +49,14 @@ html, body {
     }
 }
 
-#country-overlay{
-  position: absolute;
-  top: 0px;
-  width: ( 100 - $left-width ) + %;
-  height: 100%;
-  z-index: 3000;
-  background-color: $lightcolor; /*dim the background*/
-}
-
 #overall-trend {
     // background: $lightcolor;
     // color: $lightcolor !important;
     svg text {
         fill: white;
     }
+}
+
+#country-overlay{
+    width: ( 100 - $left-width ) + %;
 }
