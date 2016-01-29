@@ -1,10 +1,13 @@
 @import "config";
 
 #country-overlay {
+    border-radius: 25px;
+    border: 2px solid #73AD21;
     position: absolute;
-    top: 0px;
-    right: 0px;
-    height: 100%;
+    top: 20px;
+    left: 7%;
+    height: 93%;
+    width: 85%;
     z-index: 3000;
     background: white;
     overflow: hidden;
