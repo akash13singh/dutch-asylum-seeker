@@ -7,7 +7,7 @@ var d3pieConfig = {
 	"size": {
 		// "canvasHeight": 150,
 		// "canvasWidth": 150,
-		"pieOuterRadius": "60%"
+		"pieOuterRadius": "55%"
 	},
 	"data": {
 		"sortOrder": "value-desc",
@@ -19,7 +19,7 @@ var d3pieConfig = {
 			"pieDistance": 2
 		},
 		"mainLabel": {
-			"fontSize": 10
+			"fontSize": 9
 		},
 		"percentage": {
 			"color": "#ffffff",
@@ -54,7 +54,7 @@ function PieChart( id, title, data ){
         .width;
 
     options.size.canvasHeight = width/2;
-    options.size.canvasWidth  = width/2;
+    options.size.canvasWidth  = width/1.8;
 
     if( data ){
         options.data.content = data;

@@ -34,6 +34,7 @@ LeftPanel.prototype.setYear = function(d, firstTime ){
         .attr("cx", function(){ return self.xScale(d); })
         .attr("cy", function(){ return self.yScale(number) });
 
+
     this.focusLine
         .attr("x1", function(){ return self.xScale(d);} )
         .attr("x2", function(){ return self.xScale(d);} )
@@ -140,6 +141,10 @@ LeftPanel.prototype.drawTrends = function(){
     this.yearPointer = svg.append("circle")
         .attr("class", "year-pointer")
         .attr("r", 5 );
+
+    this.tooltip = svg.append("text")
+        .attr("class", "tooltip")
+        .text("xxxx");
 
 
 
