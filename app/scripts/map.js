@@ -131,10 +131,7 @@ Map.prototype.colorMap = function(year){
     		maxDomain = asylum[key][year]["Total"];
     	}
     }
-    color.domain([minDomain,maxDomain]);
-
-    console.log("minmax"+"::"+minDomain+"::"+maxDomain);
-
+    color.domain([0,maxDomain]);
     this.svg
         .selectAll(".country")
         .style("fill", function(d, i) {
@@ -164,6 +161,11 @@ Map.prototype.colorMap = function(year){
 	   .style("stroke-width", 1)
 	   .style("fill", function(d){return d;});
 		   //the data objects are the fill colors
+    legend.append("text")
+        .attr("class", "legend-header")
+        .attr("x", legendX )
+        .attr("y", legendY - 10 )
+        .html("Number of requests");
 
 	legend.append('text')
 		.attr("x", legendX + 15 ) //leave 5 pixel space after the <rect>
@@ -174,7 +176,7 @@ Map.prototype.colorMap = function(year){
 		.text( function(d,i) {
 		    var extent = color.invertExtent(d);
 		    //extent will be a two-element array, format it however you want:
-		    var format = d3.format(".3s");
+		    var format = d3.format(".1s");
 		    return format(+extent[0]) + " - " + format(+extent[1]);
 		});
 
