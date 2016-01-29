@@ -51,12 +51,12 @@ html, body {
 
 #overall-trend {
     svg text {
-        fill: $lightcolor;
+        fill: white;
     }
 
     .line {
         fill: none;
-        stroke: $lightcolor;
+        stroke: white;
         stroke-width: 2px;
     }
 
@@ -67,7 +67,7 @@ html, body {
     .axis path,
     .axis line {
       fill: none;
-      stroke: $lightcolor;
+      stroke: white;
       stroke-width: 0.5px;
       shape-rendering: crispEdges;
     }
@@ -76,8 +76,8 @@ html, body {
     }
 
     .year-pointer {
-        fill: $lightcolor;
-        stroke: $lightcolor;
+        fill: white;
+        stroke: white;
         stroke-width: 2px;
     }
 }
