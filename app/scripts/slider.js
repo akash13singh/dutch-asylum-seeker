@@ -337,7 +337,7 @@ LineGraph.prototype.render = function( datasets ) {
     if( valueKey == "relative" ){
         format = d3.format("%");
     }
-    var shiftY = 20;
+    var shiftY = 15;
     var yAxis = d3.svg.axis()
         .scale(yScale)
         .ticks(5)
