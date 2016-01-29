@@ -2,7 +2,7 @@
 ## Requirement
 - Nodejs
 
-## First Time Set up
+## Set up development environment
 1. Install NodeJs dependencies
 ```
 npm install && npm install bower -g && npm install gulp -g
@@ -12,8 +12,7 @@ npm install && npm install bower -g && npm install gulp -g
 mkdir bower_components && bower install
 ```
 
-If there is no error, you are ready to go. Go to Development section for futher
-detail.
+Now, you are ready to go. Check **Development** section for futher detail.
 
 ## Development
 `./app` is the main directory for the application.
