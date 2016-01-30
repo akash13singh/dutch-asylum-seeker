@@ -20,7 +20,7 @@ LeftPanel.prototype.setYear = function(d, firstTime ){
         .remove("*");
 
     leftPanel.select("#rank").selectAll(".country")
-        .data( totalYearlyData[d].countries.slice(0,3)  )
+        .data( totalYearlyData[d].countries.slice(0,5)  )
         .enter()
         .append('tr')
         .attr("class", "country")
