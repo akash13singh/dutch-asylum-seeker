@@ -171,15 +171,15 @@ Overlay.prototype.createOverlayCharts = function(country){
 
     function ageData() {
         return [
+        	 {
+                values: self.above18,
+                key: '18 & above',
+                color: this.firstColor
+            },
             {
                 values: self.below18,      //values - represents the array of {x,y} data points
                 key: 'below 18', //key  - the name of the series.
-                color: this.firstColor  //color - optional: choose your own line color.
-            },
-            {
-                values: self.above18,
-                key: '18 & above',
-                color: this.secondColor
+                color: this.secondColor  //color - optional: choose your own line color.
             }
         ];
     }
