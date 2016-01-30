@@ -71,7 +71,6 @@ Map.prototype.addToolTip = function(year){
         var mouse = d3.mouse(self.svg.node()).map( function(d) { return parseInt(d); } );
 
         var pos = d3.select(this).node().getBoundingClientRect();
-        console.log(pos);
         var x   = pos.right  - ( pos.right - pos.left )/3;
         var y   = pos.bottom - ( pos.bottom - pos.top )/3;
 
@@ -131,7 +130,8 @@ Map.prototype.colorMap = function(year){
     		maxDomain = asylum[key][year]["Total"];
     	}
     }
-    color.domain([0,maxDomain]);
+
+    color.domain([minDomain,maxDomain]);
     this.svg
         .selectAll(".country")
         .style("fill", function(d, i) {
@@ -140,6 +140,9 @@ Map.prototype.colorMap = function(year){
             }
             return "#DDE7EB";
         });
+
+
+    this.svg.selectAll('g.legend').remove("g.legend");
 
     var legend = this.svg.selectAll('g.legend')
 		.data(color.range())
@@ -176,7 +179,7 @@ Map.prototype.colorMap = function(year){
 		.text( function(d,i) {
 		    var extent = color.invertExtent(d);
 		    //extent will be a two-element array, format it however you want:
-		    var format = d3.format(".1s");
+		    var format = d3.format(".2s");
 		    return format(+extent[0]) + " - " + format(+extent[1]);
 		});
 
