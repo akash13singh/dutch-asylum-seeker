@@ -249,6 +249,7 @@ TimelineGraph.prototype.addData = function(data){
     legend.on("click",function(){
             self.removeData(country);
             legend.remove();
+            ColorProvider.re
         })
 
     legend.select("span")
@@ -260,6 +261,7 @@ TimelineGraph.prototype.addData = function(data){
 }
 
 TimelineGraph.prototype.removeData = function(country){
+    ColorProvider.releaseColor(country);
     var index = _.findIndex( this.datasets, function(d){
         return country == d[0].country;
     });
@@ -337,7 +339,7 @@ LineGraph.prototype.render = function( datasets ) {
     if( valueKey == "relative" ){
         format = d3.format("%");
     }
-    var shiftY = 15;
+    var shiftY = 10;
     var yAxis = d3.svg.axis()
         .scale(yScale)
         .ticks(5)

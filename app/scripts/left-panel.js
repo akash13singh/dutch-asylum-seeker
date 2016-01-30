@@ -33,6 +33,12 @@ LeftPanel.prototype.setYear = function(d, firstTime ){
     this.yearPointer
         .attr("cx", function(){ return self.xScale(d); })
         .attr("cy", function(){ return self.yScale(number) });
+
+
+    this.focusLine
+        .attr("x1", function(){ return self.xScale(d);} )
+        .attr("x2", function(){ return self.xScale(d);} )
+        .attr("y1", function(){ return self.yScale(number)} )
 }
 
 LeftPanel.prototype.drawTrends = function(){
@@ -85,7 +91,10 @@ LeftPanel.prototype.drawTrends = function(){
     var line = d3.svg.line()
         .x(function(d) { return x(d.x); })
         .y(function(d) { return y(d.y); });
-
+    var area = d3.svg.area()
+        .x(function(d) { return x(d.x); })
+        .y0(height)
+        .y1(function(d) { return y(d.y); });
 
     var svg = d3.select('#overall-trend')
         .append('svg')    //Select the <svg> element you want to render the chart in.
@@ -93,10 +102,6 @@ LeftPanel.prototype.drawTrends = function(){
         .attr("height", height + margin.bottom + margin.top )
         .append("g")
         .attr("transform", "translate(" + margin.left +" ," + margin.top +")" );
-
-    this.yearPointer = svg.append("circle")
-        .attr("class", "year-pointer")
-        .attr("r", 5 );
 
       svg.append("g")
           .attr("class", "x axis")
@@ -113,11 +118,34 @@ LeftPanel.prototype.drawTrends = function(){
           .style("text-anchor", "end")
           .text("Price ($)");
 
+
+      svg.append("path")
+          .datum(trend)
+          .attr("class", "area")
+          .attr("d", area );
+
+
+
       svg.append("path")
           .datum(trend)
           .attr("class", "line")
-          .attr("d", function(d){
-              return line(d);
-          });
+          .attr("d", line );
+
+    this.focusLine = svg.append("line")
+        .attr("class", "focus line")
+        .attr("x1", 20 )
+        .attr("x2", 20 )
+        .attr("y1", 0 )
+        .attr("y2", height  );
+
+    this.yearPointer = svg.append("circle")
+        .attr("class", "year-pointer")
+        .attr("r", 5 );
+
+    // this.tooltip = svg.append("text")
+    //     .attr("class", "tooltip")
+    //     .text("xxxx");
+
+
 
 }

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Who Want to enter Dutch!</title>
+    <title>Asylum requests to the Netherlands</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
@@ -40,7 +40,7 @@
     <div class="left column">
         <div class="header">
             <h1 class="special-font">Asylum requests to the Netherlands</h1>
-            <div>from different countries during 2007 to 2015</div>
+            <div>from different countries between 2007 and 2015</div>
         </div>
         <div class="wrapper">
             <div class="year special-font">In <select id="year-selector">
@@ -81,8 +81,8 @@
         <div id="timeline">
             <div class="wrapper">
                 <select>
-                    <option value="0">Total number of Requests</option>
-                    <option value="1">Relative Change</option>
+                    <option value="0">Total number of requests</option>
+                    <option value="1">Relative change</option>
                 </select>
                 <div class="right-block">
                     <ul></ul>
@@ -118,6 +118,7 @@
                      <svg></svg>
                 </div>
             </div>
+            <div class="background"></div>
         </div>
     </div>
 		
@@ -155,7 +156,7 @@
 
     <template id="timeline-tooltip">
         <div class="first-row">
-            <span class="country-name">{{country}}</span> <span class="number">{{number}} submissions</span>
+            <span class="country-name">{{country}}</span> <span class="number">{{number}} requests</span>
         </div>
         <div class="second-row">
             {{#if isNotZero }}

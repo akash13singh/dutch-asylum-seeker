@@ -1,16 +1,24 @@
 @import "config";
 
 #country-overlay {
-    border-radius: 25px;
-    border: 2px solid #73AD21;
     position: absolute;
-    top: 20px;
-    left: 7%;
-    height: 93%;
-    width: 85%;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
     z-index: 3000;
-    background: white;
     overflow: hidden;
+
+    .background {
+        top: 0px;
+        left: 0px;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: black;
+        opacity: 0.8;
+        z-index: 400;
+    }
 
     h2 {
         margin: 0px 0px 35px 0px;
@@ -21,10 +29,16 @@
     }
 
     .wrapper {
+        position: relative;
+        background: white;
         padding: 50px;
+        margin: auto;
+        width: 80%;
+        height: 80%;
+        z-index: 2000;
     }
     svg {
-        height: 30%;
+        height: 30% !important;
     }
 }
 

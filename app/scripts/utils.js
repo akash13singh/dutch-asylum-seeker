@@ -23,7 +23,7 @@ var CategoryKey = {
         'F': "Female"
     },
     'age': {
-        '2': "Above 18",
+        '2': "18 & Above",
         '1': "Below 18"
     },
     defaultValue: function(){
@@ -31,7 +31,7 @@ var CategoryKey = {
             "Male": 0,
             "Female": 0,
             "Below 18": 0,
-            "Above 18": 0
+            "18 & Above": 0
         }
     }
 }
