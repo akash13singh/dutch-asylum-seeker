@@ -7,6 +7,8 @@ body {
 
 
 #timeline {
+    $padding-panel: 10px;
+    position: relative;
     .axis path {
       fill: none;
       stroke: #000;
@@ -33,13 +35,14 @@ body {
     }
 
     .wrapper {
-        padding: 10px;
+        padding: $padding-panel;
+        position: relative;
     }
 
     ul {
         display: inline-block;
         padding-left: 0px;
-        margin: 0px 10px 0px 0px;
+        margin: 0px  7*($padding-panel) 0px 0px;
         li.legend {
             $line-height: 23px;
             display: inline-block;
@@ -82,9 +85,28 @@ body {
     }
 
     .more-country-button {
-        font-size: 20px;
+        background: $basecolor;
+        color: white;
+        &:hover {
+            background: #224278;
+        }
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        $padding: 5px;
+        font-size: 10px;
         cursor: pointer;
-        color: $basecolor;
+        border: 1px solid $basecolor;
+        padding: $padding/2 0 $padding/2 $padding;
+        position: absolute;
+        right: 0px;
+        top: $padding-panel;
+        // margin-top: $padding + px;
+        i {
+            font-size: 10px;
+            margin-right: $padding;
+            vertical-align: middle;
+            margin-righ: 2px;
+        }
         &.clicked {
             i {
                 transform: rotate(45deg);
@@ -93,10 +115,10 @@ body {
     }
 
     .country-panel {
+        position: absolute;
         $width: 200;
         $padding: 5;
         display: none;
-        position: absolute;
         border: 2px solid $basecolor;
         background: white;
         right: 0px;
