@@ -12,8 +12,8 @@ function Overlay(id){
         }
     };
 
-    this.firstColor  = "#f7f7f7";
-    this.secondColor = "#67a9cf";
+    this.firstColor  = "steelblue";
+    this.secondColor = "orange";
 }
 
 
@@ -100,7 +100,6 @@ Overlay.prototype.createOverlayCharts = function(country){
         // nv.utils.windowResize(function() { chart.update() });
         // return chart;
     });
-    console.log(self.genderChart);
 
 
     /*These lines are all chart setup.  Pick and choose which chart features you want to utilize. */
@@ -125,6 +124,7 @@ Overlay.prototype.createOverlayCharts = function(country){
 
         /* Done setting the chart up? Time to render it!*/
         var myData = ageData();   //You need data...
+        console.log(myData);
 
         var c = d3.select('#ageChart svg')    //Select the <svg> element you want to render the chart in.
         .datum(myData)         //Populate the <svg> element with chart data...
@@ -149,7 +149,7 @@ Overlay.prototype.createOverlayCharts = function(country){
             {
                 values: self.total,      //values - represents the array of {x,y} data points
                 key: 'Total', //key  - the name of the series.
-                color: this.firstColor
+                color: self.firstColor
             }
         ];
     }
@@ -159,12 +159,12 @@ Overlay.prototype.createOverlayCharts = function(country){
             {
                 values: self.male,      //values - represents the array of {x,y} data points
                 key: 'Male', //key  - the name of the series.
-                color: this.firstColor
+                color: self.firstColor
             },
             {
                 values: self.female,
                 key: 'Female',
-                color: this.secondColor
+                color: self.secondColor
             }
         ];
     }
@@ -174,12 +174,12 @@ Overlay.prototype.createOverlayCharts = function(country){
         	 {
                 values: self.above18,
                 key: '18 & above',
-                color: this.firstColor
+                color: self.firstColor
             },
             {
                 values: self.below18,      //values - represents the array of {x,y} data points
                 key: 'below 18', //key  - the name of the series.
-                color: this.secondColor  //color - optional: choose your own line color.
+                color: self.secondColor  //color - optional: choose your own line color.
             }
         ];
     }
