@@ -82,9 +82,20 @@ body {
     }
 
     .more-country-button {
-        font-size: 20px;
+        $padding: 5px;
+        padding: $padding;
+        background: $basecolor;
+        font-size: 11px;
         cursor: pointer;
-        color: $basecolor;
+        color: white;
+        display: inline-block;
+        border-radius: 5px;
+        &:hover {
+            background: #224278;
+        }
+        i {
+            font-size: 13px;
+        }
         &.clicked {
             i {
                 transform: rotate(45deg);
