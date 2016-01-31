@@ -157,10 +157,3 @@ function ready(error,world, asylumRequests ){
 
 
 }
-
-var x = MIN_YEAR;
-function animate(){
-    setInterval( function(){
-        yearSelector.onChange(x++);
-    }, 3000 );
-}

@@ -157,7 +157,7 @@ function TimelineGraph( id, options ){
 
     this.element.select(".more-country-button")
         .on("click",function(e){
-            var r    = d3.select("#timeline")
+            var r    = d3.select(".more-country-button")
                 .node()
                 .getBoundingClientRect();
                 console.log(r);
@@ -192,9 +192,9 @@ function TimelineGraph( id, options ){
                 });
 
 
-            var paddingAndBorder = 64;
+            var paddingAndBorder = 25;
             self.element.select(".country-panel")
-                .style("top", (-r.height - paddingAndBorder  )+"px" );
+                .style("top", (r.top-countryPanelHeight- paddingAndBorder )+"px" );
             toggleCountryList();
 
             function toggleCountryList(){
