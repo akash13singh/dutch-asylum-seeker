@@ -1,5 +1,36 @@
+var zoom = d3.behavior.zoom()//----------
+    .scaleExtent([1, 9])
+    .on("zoom", move); 
+    
+function move() {//---------
+
+  var t = d3.event.translate;
+  var s = d3.event.scale; 
+  zscale = s;
+  var h = map.height/4;
+
+
+  t[0] = Math.min(
+    (map.width/map.height)  * (s - 1), 
+    Math.max( map.width * (1 - s), t[0] )
+  );
+
+  t[1] = Math.min(
+    h * (s - 1) + h * s, 
+    Math.max(map.height  * (1 - s) - h * s, t[1])
+  );
+
+  zoom.translate(t);
+  map.svg.attr("transform", "translate(" + t + ")scale(" + s + ")");
+
+  //adjust the country hover stroke width based on zoom level
+  d3.selectAll(".country").style("stroke-width", 1.5 / s);
+
+}
+    							
 
 function Map( id ){
+     self = this;
     this.element = d3.select(id);
 
     this.width  = document.getElementById('map').offsetWidth;
@@ -15,6 +46,7 @@ function Map( id ){
     var svg = this.element.append("svg")
       .attr("width", this.width)
       .attr("height", this.height)
+      .call(zoom)
       .append("g");
 
     this.svg = svg;
